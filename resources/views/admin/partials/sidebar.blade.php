@@ -144,15 +144,42 @@
                         </span>
                         <span class="pc-mtext" data-i18n="Workouts">Workouts</span>
                     </a>
+                </li>--}}
+                <li class="pc-item pc-hasmenu @if(isset($set) && $set == 'exercise_type' || isset($set) && $set == 'equipments' || isset($set) && $set == 'muscle_group' || isset($set) && $set == 'workout_categories' || isset($set) && $set == 'workouts') pc-trigger @endif">
+                    <a href="javascript:void(0)" class="pc-link @if(isset($set) && $set == 'attributes') active @endif">
+                        <span class="pc-micon">
+                            <img class="icon-active" src="{{ asset(config('constants.admin_path').'images/icons/workouts.svg') }}" alt="product.svg">
+                            <img class="icon-default" src="{{ asset(config('constants.admin_path').'images/icons/workouts.svg') }}" alt="product.png">
+                        </span>
+                        <span class="pc-mtext" data-i18n="Workouts">Workouts</span>
+                        <span class="pc-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
+                    </a>
+                    <ul class="pc-submenu">
+                        <li class="pc-item @if(isset($set) && $set == 'exercise_type') active @endif"><a class="pc-link" href="{{route('admin.exercise-type')}}" data-i18n="Exercise Type">Exercise Type</a></li>
+                        <li class="pc-item @if(isset($set) && $set == 'equipments') active @endif"><a class="pc-link" href="{{route('admin.equipment')}}" data-i18n="Equipments">Equipments</a></li>
+                        <li class="pc-item @if(isset($set) && $set == 'muscle_group') active @endif"><a class="pc-link" href="{{route('admin.muscle-group')}}" data-i18n="Muscle Group">Muscle Group</a></li>
+                        <li class="pc-item @if(isset($set) && $set == 'workout_category') active @endif"><a class="pc-link" href="{{route('admin.workout-categories')}}" data-i18n="Workout Category">Workout Category</a></li>
+                        <li class="pc-item @if(isset($set) && $set == 'workouts') active @endif"><a class="pc-link" href="{{route('admin.workouts')}}" data-i18n="Workout">Workout</a></li>
+                    </ul>
                 </li>
                 <li class="pc-item">
-                    <a href="#!" class="pc-link">
+                    <a href="{{route('admin.workout-plans')}}" class="pc-link @if(isset($set) && $set == 'workout_plans') active @endif">
+                        <span class="pc-micon">
+                            <img class="icon-active" src="{{ asset(config('constants.admin_path').'images/icons/files.svg') }}" alt="files.svg">
+                            <img class="icon-default" src="{{ asset(config('constants.admin_path').'images/icons/files-b.svg') }}" alt="files.svg">
+                        </span>
+                        <span class="pc-mtext" data-i18n="Workout Plans">Workout Plans</span>
+                    </a>
+                </li>
+                <li class="pc-item">
+                    <a href="{{route('admin.trainers')}}" class="pc-link @if(isset($set) && $set == 'trainers') active @endif">
                         <span class="pc-micon">
                             <img src="{{ asset(config('constants.admin_path').'images/icons/trainers.svg') }}" alt="trainers.svg">
                         </span>
                         <span class="pc-mtext" data-i18n="Trainers">Trainers</span>
                     </a>
                 </li>
+                {{--
                 <li class="pc-item">
                     <a href="#!" class="pc-link">
                         <span class="pc-micon">

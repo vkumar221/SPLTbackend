@@ -43,7 +43,7 @@
                 <div class="row align-items-center">
                     <div class="col-8">
                     <p class="card_title">Sales</p>
-                    <h3 class="card_price">$20.4K</h3>
+                    <h3 class="card_price">{{config('constants.currency_symbol')}} {{Helpers::formatCurrency($sales)}}</h3>
                     </div>
                     <div class="col-4 text-end">
                     <img src="{{ asset(config('constants.admin_path').'images/icons/card-icon.svg')}}" width="60" height="60" alt="card-icon.svg">
@@ -62,7 +62,7 @@
                 <div class="row align-items-center">
                     <div class="col-8">
                     <p class="card_title">Revenue</p>
-                    <h3 class="card_price">$8.2K</h3>
+                    <h3 class="card_price">{{config('constants.currency_symbol')}} {{Helpers::formatCurrency($sales)}}</h3>
                     </div>
                     <div class="col-4 text-end">
                     <img src="{{ asset(config('constants.admin_path').'images/icons/card-icon.svg')}}" width="60" height="60" alt="card-icon.svg">
@@ -81,7 +81,7 @@
                 <div class="row align-items-center">
                     <div class="col-8">
                     <p class="card_title">Escrow</p>
-                    <h3 class="card_price">$18.2K</h3>
+                    <h3 class="card_price">{{config('constants.currency_symbol')}} {{Helpers::formatCurrency($sales)}}</h3>
                     </div>
                     <div class="col-4 text-end">
                     <img src="{{ asset(config('constants.admin_path').'images/icons/card-icon.svg')}}" width="60" height="60" alt="card-icon.svg">
@@ -100,7 +100,7 @@
                 <div class="row align-items-center">
                     <div class="col-8">
                     <p class="card_title">Orders</p>
-                    <h3 class="card_price">219</h3>
+                    <h3 class="card_price">{{$orders}}</h3>
                     </div>
                     <div class="col-4 text-end">
                     <img src="{{ asset(config('constants.admin_path').'images/icons/cart.svg')}}" width="60" height="60" alt="cart.svg">
@@ -119,7 +119,7 @@
                 <div class="row align-items-center">
                     <div class="col-8">
                     <p class="card_title">Products</p>
-                    <h3 class="card_price">50</h3>
+                    <h3 class="card_price">{{$product}}</h3>
                     </div>
                     <div class="col-4 text-end">
                     <img src="{{ asset(config('constants.admin_path').'images/icons/products.svg')}}" width="60" height="60" alt="products.svg">
@@ -138,7 +138,7 @@
                 <div class="row align-items-center">
                     <div class="col-8">
                     <p class="card_title">Admin Earnings</p>
-                    <h3 class="card_price">$5K</h3>
+                    <h3 class="card_price">{{config('constants.currency_symbol')}} {{Helpers::formatCurrency($sales)}}</h3>
                     </div>
                     <div class="col-4 text-end">
                     <img src="{{ asset(config('constants.admin_path').'images/icons/dollor.svg')}}" width="60" height="60" alt="dollor.svg">
@@ -494,14 +494,6 @@
 @endsection
 @section('custom_script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-{{-- <script src="{{ asset(config('constants.admin_path').'js/plugins/apexcharts.min.js') }}"></script>
-<script src="{{ asset(config('constants.admin_path').'js/widgets/new-orders-graph.js') }}"></script>
-<script src="{{ asset(config('constants.admin_path').'js/widgets/new-users-graph.js') }}"></script>
-<script src="{{ asset(config('constants.admin_path').'js/widgets/visitors-graph.js') }}"></script>
+<script src="{{ asset(config('constants.admin_path').'js/plugins/apexcharts.min.js') }}"></script>
 <script src="{{ asset(config('constants.admin_path').'js/widgets/overview-chart.js') }}"></script>
-<script src="{{ asset(config('constants.admin_path').'js/widgets/income-graph.js') }}"></script>
-<script src="{{ asset(config('constants.admin_path').'js/widgets/languages-graph.js') }}"></script>
-<script src="{{ asset(config('constants.admin_path').'js/widgets/overview-product-graph.js') }}"></script>
-<script src="{{ asset(config('constants.admin_path').'js/widgets/total-earning-graph-1.js') }}"></script>
-<script src="{{ asset(config('constants.admin_path').'js/widgets/total-earning-graph-2.js') }}"></script> --}}
 @endsection

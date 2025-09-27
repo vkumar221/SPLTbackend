@@ -18,3 +18,8 @@
 <link rel="stylesheet" href="{{ asset(config('constants.admin_path').'css/style-preset.css')}}" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.1/sweetalert2.min.css">
 
+<link rel="stylesheet" href="{{ asset(config('constants.admin_path').'css/plugins/datepicker-bs5.min.css')}}"/>
+<link rel="stylesheet" href="{{ asset(config('constants.admin_path').'fonts/phosphor/duotone/style.css')}}" />
+<link rel="stylesheet" href="{{ asset(config('constants.admin_path').'fonts/tabler-icons.min.css')}}" />
+<link rel="stylesheet" href="{{ asset(config('constants.admin_path').'css/trainer.css')}}"/> 
+

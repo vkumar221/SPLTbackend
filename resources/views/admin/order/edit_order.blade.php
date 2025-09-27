@@ -112,9 +112,11 @@
                         <span>{{config('constants.currency_symbol')}} {{$order->order_total}}</span>
                         </div>
                     </div>
+                    @if($order->order_notes != NULL)
                     <div class="comment-text">
-                        <p>Comment: <span>Please provide the order with gift wrap</span></p>
+                        <p>Comment: <span>{{$order->order_notes}}</span></p>
                     </div>
+                    @endif
                 </div>
                 <div class="order-container">
                     <h2>Edit Order Details</h2>
@@ -153,8 +155,10 @@
                     <div class="order-summary">
                     <div class="summary-title_head">
                         <div></div>
-                        {{-- <div>Flat Shipping Rate: </div>
-                        <div>Retail 8.5%:</div> --}}
+                        @if($order->order_coupon_code != NULL)
+                        <div>Promo Code Applied - "{{$order->order_coupon_code}}" (@if($order->order_discount_per != 0) {{$order->order_discount_per}}% @else {{config('constants.currency_symbol')}} {{$order->order_discount}} @endif) </div>
+                        @endif
+                        {{-- <div>Retail 8.5%:</div> --}}
                         <div></div>
                     </div>
                     <div class="summary-row">
@@ -166,6 +170,16 @@
                             {{config('constants.currency_symbol')}} {{array_sum($price)}}
                             </div>
                         </div>
+                        @if($order->order_coupon_code != NULL)
+                        <div class="summary-data">
+                            <div class="summary-label">
+                                Discount:
+                            </div>
+                            <div class="summary-value">
+                            {{config('constants.currency_symbol')}} {{$order->order_discount}}
+                            </div>
+                        </div>
+                        @endif
                         <div class="summary-data">
                             {{-- <div class="remove-icon">
                             <img src="{{ asset(config('constants.admin_path').'images/icons/remove.svg')}}" alt="remove.svg">
@@ -183,7 +197,7 @@
                             Total:
                             </div>
                             <div class="summary-value">
-                            {{config('constants.currency_symbol')}} {{array_sum($price)}}
+                            {{config('constants.currency_symbol')}} {{array_sum($price) - $order->order_discount}}
                             </div>
                         </div>
                     </div>

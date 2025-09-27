@@ -19,7 +19,7 @@
 }
 
 .btn-primary{
-	background: var(--bs-primary) !important;
+	/* background: var(--bs-primary) !important; */
     border-color: var(--bs-primary);
 }
 
@@ -36,7 +36,7 @@
 ==========================**/
 
 .trainer-header{
-    left: 255px;	
+    left: 255px;
 }
 
 .trainer-header .header-wrapper{
@@ -760,15 +760,15 @@
     gap: 35px;
 }
 
-.clients-tabs .card-box .card-header .card-icon p{           
-	font-size: 14px;   
+.clients-tabs .card-box .card-header .card-icon p{
+	font-size: 14px;
     font-weight: 400;
-    color:#fff;	
-	line-height: 20px;                   
-	letter-spacing: 0.25px;              
+    color:#fff;
+	line-height: 20px;
+	letter-spacing: 0.25px;
 	text-align: center;
 	vertical-align: middle;
-	font-family: 'Inter', sans-serif;    
+	font-family: 'Inter', sans-serif;
 	margin-bottom:0;
 }
 
@@ -789,22 +789,22 @@
 }
 
 .clients-tabs .card-box .card-content .card-inner_txt p{
-	font-size: 14px;   
+	font-size: 14px;
     font-weight: 400;
-    color:#fff;	
-	line-height: 20px;                   
-	letter-spacing: 0.25px;              
-	font-family: 'Inter', sans-serif;    
+    color:#fff;
+	line-height: 20px;
+	letter-spacing: 0.25px;
+	font-family: 'Inter', sans-serif;
 	margin-bottom:0;
 }
 
 .clients-tabs .card-box .card-content .card-inner_txt span{
-	font-size: 14px;   
+	font-size: 14px;
     font-weight: 400;
-    color:#fff;	
-	line-height: 20px;                   
-	letter-spacing: 0.25px;              
-	font-family: 'Inter', sans-serif;    
+    color:#fff;
+	line-height: 20px;
+	letter-spacing: 0.25px;
+	font-family: 'Inter', sans-serif;
 	margin-bottom:0;
 }
 
@@ -924,7 +924,7 @@
   margin: 0;
 }
 
-.dropdown-menu-custom ul li { 
+.dropdown-menu-custom ul li {
   padding: 10px 16px;
   display: flex;
   align-items: center;
@@ -1100,7 +1100,7 @@
 }
 
 .main-container .table thead tr th{
-	background-color: #F3F4F6; 
+	background-color: #F3F4F6;
 	padding: 10px 13px;
     font-size: 14px;
     font-weight: 400;
@@ -1263,7 +1263,7 @@
 	font-size: 14px;
 	color: #6C737F;
 	font-weight: 400;
-	line-height: 20px; 
+	line-height: 20px;
 	font-family: 'Inter', sans-serif;
 }
 
@@ -1368,7 +1368,6 @@
 .dropdown-menu{
 	transform: translate3d(16px, 37.2px, 0px) !important;
 	box-shadow:unset;
-	background-color:var(--bs-primary);
 	width: 212px;
 	border-radius: 4px;
 }
@@ -1397,7 +1396,7 @@
   display: block;
   text-decoration: none;
   margin-bottom: 8px;
-  color: #FFF;
+  /* color: #FFF; */
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -1410,7 +1409,7 @@
 }
 
 .dropdown .dropdown-item:last-child:hover {
-  color: red !important;	
+  color: red !important;
   opacity: 0.8;
 }
 
@@ -1611,7 +1610,7 @@
     border-bottom-left-radius: 6px;
 	border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
-    margin-bottom: 0;	
+    margin-bottom: 0;
 }
 
 .muscle-distribution-title ul li{
@@ -2063,7 +2062,7 @@
     text-align: center;
     margin: 24px 0;
     position: relative;
-} 
+}
 
 .upload-container .divider-or::before,
 .upload-container .divider-or::after {
@@ -2766,7 +2765,7 @@
 	font-size: 14px;
 	font-style: normal;
 	font-weight: 500;
-	line-height: 20px; 
+	line-height: 20px;
 	margin-bottom: 10px;
 }
 
@@ -2970,7 +2969,7 @@
 	font-style: normal;
 	font-weight: 400;
 	line-height: normal;
-    margin-bottom:0;	
+    margin-bottom:0;
 }
 
 .newsletter-action__btn .btn-back, .newsletter-action__btn .btn-save{

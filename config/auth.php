@@ -48,6 +48,10 @@ return [
             'driver' => 'session',
             'provider' => 'vendors',
         ],
+        'trainer' => [
+            'driver' => 'session',
+            'provider' => 'trainers',
+        ],
         'api' => [
             'driver' => 'passport',
             'provider' => 'users',
@@ -83,6 +87,10 @@ return [
         'vendors' => [
             'driver' => 'eloquent',
             'model' => App\Models\Vendor::class,
+        ],
+        'trainers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Trainer::class,
         ],
         // 'users' => [
         //     'driver' => 'database',
@@ -124,6 +132,12 @@ return [
         ],
         'vendors' => [
             'provider' => 'vendors',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'trainers' => [
+            'provider' => 'trainers',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

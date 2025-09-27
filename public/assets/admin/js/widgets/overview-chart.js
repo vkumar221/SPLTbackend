@@ -61,8 +61,8 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     var chart = new ApexCharts(document.querySelector('#overview-chart-1'), options12);
     chart.render();
-    var chart1 = new ApexCharts(document.querySelector('#overview-chart-3'), options12);
-    chart1.render();
+    // var chart1 = new ApexCharts(document.querySelector('#overview-chart-3'), options12);
+    // chart1.render();
     var options13 = {
       chart: {
         height: 250,
@@ -121,9 +121,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       }
     };
-    var chart = new ApexCharts(document.querySelector('#overview-chart-2'), options13);
-    chart.render();
-    var chart1 = new ApexCharts(document.querySelector('#overview-chart-4'), options13);
-    chart1.render();
+    // var chart = new ApexCharts(document.querySelector('#overview-chart-2'), options13);
+    // chart.render();
+    // var chart1 = new ApexCharts(document.querySelector('#overview-chart-4'), options13);
+    // chart1.render();
   }, 500);
 });

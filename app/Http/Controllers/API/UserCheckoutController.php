@@ -15,6 +15,7 @@ use App\Models\ProductVariant;
 use App\Models\AttributeVariation;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\PromoCode;
 use DB;
 
 class UserCheckoutController extends BaseController
@@ -83,6 +84,49 @@ class UserCheckoutController extends BaseController
             $price[] = $cart['cart_variant_offer_price'] * $cart['cart_variant_quantity'];
         }
 
+        $total = array_sum($price);
+
+        if($request->has('promocode'))
+        {
+            $coupon = PromoCode::where('promo_code_name',$request->promocode)->first();
+            if(isset($coupon))
+            {
+                $orders = Order::where(['order_added_by'=>Auth::user()->id,'order_coupon'=>$coupon->promo_code_id])->get();
+                $order_count = Order::where(['order_coupon'=>$coupon->promo_code_id])->count();
+
+                $from = strtotime($coupon->promo_code_from);
+                $to = strtotime($coupon->promo_code_to);
+                $date = strtotime(date('Y-m-d'));
+
+                if($date >= $from && $date <= $to && $orders->count() < $coupon->promo_code_usage && $order_count < $coupon->promo_code_max_users && $total >= $coupon->promo_code_min_order_value)
+                {
+                    if($coupon->promo_code_type == 2)
+                    {
+                        if($total > $coupon->promo_code_max_order_value)
+                        {
+                            $tot_price = $coupon->promo_code_max_order_value;
+                        }
+                        else
+                        {
+                            $tot_price = $total;
+                        }
+
+                        $discount = round((($tot_price * $coupon->promo_code_value)/100),2);
+                        $final = $total - $discount;
+                        $ins['order_discount_per'] = $coupon->promo_code_value;
+                    }
+                    else
+                    {
+                        $discount = $coupon->promo_code_value;
+                        $final = $total - $discount;
+                    }
+                    $ins['order_coupon'] = $coupon->promo_code_id;
+                    $ins['order_coupon_code'] = $coupon->promo_code_name;
+                    $ins['order_discount'] = $discount;
+                }
+            }
+
+        }
         $ordrcnt = Order::count();
         $id = $ordrcnt+1;
 
@@ -101,7 +145,9 @@ class UserCheckoutController extends BaseController
         $ins['order_total']                = array_sum($price);
         $ins['order_paid']                 = array_sum($price);
         $ins['order_payment']              = $request->order_pay_method;
+        $ins['order_notes']                = $request->order_notes;
         $ins['order_pay_status']           = $request->order_pay_status;
+        $ins['order_ip']                   = Helpers::getUserIP();
         $ins['order_added_by']             = Auth::user()->id;
         $ins['order_updated_by']           = Auth::user()->id;
         $ins['order_added_on']             = date('Y-m-d H:i:s');

@@ -6,6 +6,7 @@ use App\Http\Controllers\API\UserLoginController;
 use App\Http\Controllers\API\UserRegisterController;
 use App\Http\Controllers\API\UserHomeController;
 use App\Http\Controllers\API\UserCategoryController;
+use App\Http\Controllers\API\UserPromoCodeController;
 use App\Http\Controllers\API\UserProductController;
 use App\Http\Controllers\API\UserProfileController;
 use App\Http\Controllers\API\UserCartController;
@@ -50,8 +51,12 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('logout', [UserLoginController::class, 'logout']);
     Route::get('logout_all_device', [UserLoginController::class, 'logout_all_device']);
 
-  //Category
+    //Category
     Route::get('category', [UserCategoryController::class, 'index']);
+
+    //Promocode
+    Route::get('promocode', [UserPromoCodeController::class, 'index']);
+    Route::post('verify_promocode', [UserPromoCodeController::class, 'verify_promocode']);
 
     //Product
     Route::get('product', [UserProductController::class, 'index']);

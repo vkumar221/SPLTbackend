@@ -40,6 +40,10 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/vendor.php'));
 
             Route::middleware('web')
+                ->prefix('trainer')
+                ->group(base_path('routes/trainer.php'));
+
+            Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
     }

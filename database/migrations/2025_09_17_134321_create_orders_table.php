@@ -30,8 +30,8 @@ return new class extends Migration
             $table->integer('order_payment')->default(1);
             $table->string('order_total')->default(0);
             $table->string('order_paid')->nullable();
-            $table->string('order_discount')->nullable();
-            $table->string('order_discount_per')->nullable();
+            $table->string('order_discount')->default(0);
+            $table->string('order_discount_per')->default(0);
             $table->string('order_coupon')->nullable();
             $table->string('order_coupon_code')->nullable();
             $table->integer('order_cod')->default(0);

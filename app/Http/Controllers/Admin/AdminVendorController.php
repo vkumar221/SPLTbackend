@@ -102,12 +102,12 @@ class AdminVendorController extends Controller
                 return redirect()->back()->withErrors($validator->errors())->withInput();
             }
 
-            $where_name['vendor_name'] = $request->vendor_name;
+            $where_name['vendor_email'] = $request->vendor_email;
             $check_name = Vendor::where($where_name)->count();
 
             if($check_name > 0)
             {
-                return redirect()->back()->with('error','Name already in use')->withInput();
+                return redirect()->back()->with('error','Email already in use')->withInput();
             }
 
             $ins['vendor_name']       = $request->vendor_name;
@@ -115,7 +115,7 @@ class AdminVendorController extends Controller
             $ins['vendor_email']      = $request->vendor_email;
             $ins['vendor_phone']      = $request->vendor_phone;
             $ins['vendor_password']   = bcrypt($request->vendor_password);
-            $ins['vendor_vpassword']   = base64encode($request->vendor_password);
+            $ins['vendor_vpassword']   = base64_encode($request->vendor_password);
             $ins['vendor_status']     = 1;
             $ins['vendor_added_by']   = Auth::guard('admin')->user()->admin_id;
             $ins['vendor_added_on']   = date('Y-m-d H:i:s');
@@ -175,12 +175,12 @@ class AdminVendorController extends Controller
                 return redirect()->back()->withErrors($validator->errors())->withInput();
             }
 
-            $where_name['vendor_name'] = $request->vendor_name;
+            $where_name['vendor_email'] = $request->vendor_email;
             $check_name = Vendor::where($where_name)->where('vendor_id','!=',$request->segment(3))->count();
 
             if($check_name > 0)
             {
-                return redirect()->back()->with('error','Name already in use')->withInput();
+                return redirect()->back()->with('error','Email already in use')->withInput();
             }
 
             $upd['vendor_name']       = $request->vendor_name;
