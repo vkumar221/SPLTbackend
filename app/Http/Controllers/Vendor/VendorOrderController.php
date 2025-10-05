@@ -48,7 +48,7 @@ class VendorOrderController extends Controller
                         }
                         elseif($row->order_status == 2)
                         {
-                            $status = '<span class="status-label text-white">Processed</span>';
+                            $status = '<span class="status-label text-white">Confirmed</span>';
                         }
                         elseif($row->order_status == 3)
                         {

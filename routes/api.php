@@ -11,6 +11,7 @@ use App\Http\Controllers\API\UserProductController;
 use App\Http\Controllers\API\UserProfileController;
 use App\Http\Controllers\API\UserCartController;
 use App\Http\Controllers\API\UserCheckoutController;
+use App\Http\Controllers\API\UserOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,11 +36,7 @@ Route::get('unauthenticated',function(){
     //Register
     Route::post('register', [UserRegisterController::class, 'index']);
 
-
-
-
 Route::group(['middleware' => ['auth:api']], function () {
-
 
     Route::get('profile', [UserProfileController::class, 'index']);
     Route::post('update_profile', [UserProfileController::class, 'update_profile']);
@@ -72,6 +69,12 @@ Route::group(['middleware' => ['auth:api']], function () {
     //Checkout
     Route::get('checkout', [UserCheckoutController::class, 'index']);
     Route::post('place_order', [UserCheckoutController::class, 'place_order']);
+
+    //Order
+    Route::get('orders', [UserOrderController::class, 'index']);
+    Route::get('order_details', [UserOrderController::class, 'order_details']);
+    Route::post('order_cancel', [UserOrderController::class, 'order_cancel']);
+    Route::post('order_review', [UserOrderController::class, 'order_review']);
 
 
 });

@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('workout_plan_name')->unique();
             $table->integer('workout_plan_category')->default(1);
             $table->string('workout_plan_duration')->nullable();
+            $table->string('workout_plan_goal')->nullable();
+            $table->string('workout_plan_days')->nullable();
             $table->text('workout_plan_note')->nullable();
             $table->integer('workout_plan_status')->default(1);
             $table->integer('workout_plan_trash')->default(0);

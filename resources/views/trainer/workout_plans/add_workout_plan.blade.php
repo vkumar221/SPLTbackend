@@ -57,6 +57,24 @@
 								  </div>
 							   </div>
                                <div class="col-lg-6">
+							      <div class="form-group mb-4">
+								     <label class="mb-2">Main Goal</label>
+									 <input type="text" class="form-control" name="workout_plan_goal" id="workout_plan_goal	" value="{{old('workout_plan_goal')}}" autocomplete="off">
+                                     @if($errors->has('workout_plan_goal'))
+                                    <p class="text-danger">{{ $errors->first('workout_plan_goal') }}</p>
+                                    @endif
+								  </div>
+							   </div>
+                               <div class="col-lg-6">
+							      <div class="form-group mb-4">
+								     <label class="mb-2">Days / Weeks</label>
+									 <input type="text" class="form-control" name="workout_plan_days" id="workout_plan_days" value="{{old('workout_plan_days')}}" autocomplete="off">
+                                     @if($errors->has('workout_plan_days'))
+                                    <p class="text-danger">{{ $errors->first('workout_plan_days') }}</p>
+                                    @endif
+								  </div>
+							   </div>
+                               <div class="col-lg-6">
                                     <div class="form-group mb-4">
                                     <label for="workout_category">Category</label>
                                     <select class="form-control" name="workout_plan_category" id="workout_plan_category">
@@ -144,7 +162,6 @@
                         <div class="col-lg-8 col-md-8 col-12">
 					        <div class="row">
 							   <div class="col-lg-8">
-							      <label class="mb-2">Selected Workouts</label>
                                      <div id="workout_list_selected" class="row">
                                      </div>
 							   </div>
@@ -152,7 +169,7 @@
                       </div>
                       <div class="col-lg-12 col-md-12 col-12">
                         <div class="form-action__button">
-                        <a href="{{route('admin.workout-plans')}}" class="btn-link btn-white"><img style="margin-right:5px" src="{{ asset(config('constants.admin_path').'images/icons/arrow-left.svg')}}" alt="arrow-left">Back</a>
+                        <a href="{{route('trainer.workout-plans')}}" class="btn-link btn-white"><img style="margin-right:5px" src="{{ asset(config('constants.admin_path').'images/icons/arrow-left.svg')}}" alt="arrow-left">Back</a>
                         <button type="submit" class="btn-link btn-dark" style="color:white" name="submit" value="Submit">Submit</button>
                         </div>
                     </div>

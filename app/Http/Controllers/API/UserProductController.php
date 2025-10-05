@@ -135,8 +135,5 @@ class UserProductController extends BaseController
             return $this->sendError('Please provide product Id', []);
         }
 
-
-
-
     }
 }

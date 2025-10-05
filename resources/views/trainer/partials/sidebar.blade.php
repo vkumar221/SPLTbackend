@@ -34,13 +34,14 @@
                     </a>
                 </li>
                 {{-- <li class="pc-item">
-                    <a href="exercise-library.html" class="pc-link">
+                    <a href="{{route('trainer.exercise-library')}}" class="pc-link">
                         <span class="pc-micon">
                             <img src="{{ asset(config('constants.admin_path').'images/icons/exercise.svg')}}" alt="exercise">
                         </span>
                         <span class="pc-mtext" data-i18n="Exercise Library">Exercise Library</span>
                     </a>
-                </li>
+                </li> --}}
+                {{--
                 <li class="pc-item pc-hasmenu">
                     <a href="javascript:void(0)" class="pc-link">
                         <span class="pc-micon">

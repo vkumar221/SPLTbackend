@@ -57,6 +57,24 @@
 								  </div>
 							   </div>
                                <div class="col-lg-6">
+							      <div class="form-group mb-4">
+								     <label class="mb-2">Main Goal</label>
+									 <input type="text" class="form-control" name="workout_plan_goal" id="workout_plan_goal	" value="{{$workout_plan->workout_plan_goal}}" autocomplete="off">
+                                     @if($errors->has('workout_plan_goal'))
+                                    <p class="text-danger">{{ $errors->first('workout_plan_goal') }}</p>
+                                    @endif
+								  </div>
+							   </div>
+                               <div class="col-lg-6">
+							      <div class="form-group mb-4">
+								     <label class="mb-2">Days / Weeks</label>
+									 <input type="text" class="form-control" name="workout_plan_days" id="workout_plan_days" value="{{$workout_plan->workout_plan_days}}" autocomplete="off">
+                                     @if($errors->has('workout_plan_days'))
+                                    <p class="text-danger">{{ $errors->first('workout_plan_days') }}</p>
+                                    @endif
+								  </div>
+							   </div>
+                               <div class="col-lg-6">
                                     <div class="form-group mb-4">
                                     <label for="workout_category">Category</label>
                                     <select class="form-control" name="workout_plan_category" id="workout_plan_category">
@@ -153,10 +171,20 @@
                                                     <img src="{{ asset(config('constants.admin_path').'uploads/workout/'.$workout->workout_image)}}" alt="{{$workout->workout_name}}" width="100%">
                                                     </div>
                                                     <div class="exercise-title">
-                                                    <h5>{{$workout->workout_name}}</h5>
-                                                    <p>{{$workout->muscle_group_name}}</p>
+                                                        <h5>{{$workout->workout_name}}</h5>
+                                                        <p>{{$workout->muscle_group_name}}</p>
                                                     </div>
-                                                    <button type="button" class="btn btn-danger btn-sm" onclick="removePlan({{$workout->workout_id}})">Remove</button>
+                                                    <div class="form-group mb-4">
+                                                        <label class="mb-2">Sets</label>
+                                                        <input type="text" class="form-control-sm" name="workout_plan_exercise_sets[{{$workout->workout_id}}]" value="{{$workout->workout_plan_exercise_sets}}" autocomplete="off">
+                                                    </div>
+                                                    <div class="form-group mb-4">
+                                                        <label class="mb-2">Reps</label>
+                                                        <input type="text" class="form-control-sm" name="workout_plan_exercise_reps[{{$workout->workout_id}}]" value="{{$workout->workout_plan_exercise_reps}}" autocomplete="off">
+                                                    </div>
+                                                    <div class="text-center mb-2">
+                                                        <button type="button" class="btn btn-danger btn-sm" onclick="removePlan({{$workout->workout_id}})">Remove</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                             @endforeach

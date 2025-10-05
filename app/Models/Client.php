@@ -21,5 +21,16 @@ class Client extends Authenticatable
         return $this->client_password;
     }
 
+    public static function getClientTrainer($where)
+    {
+        $client = new Client;
+
+        return $client->select('*')
+                        ->join('trainer_clients','trainer_clients.trainer_client','clients.client_id')
+                        ->where($where)
+                        ->orderby('trainer_client_id','desc')
+                        ->get();
+    }
+
 
 }

@@ -45,6 +45,15 @@ Route::group(['middleware' => ['checktrainer',]], function () {
     Route::get('add_client',[TrainerClientController::class, 'add_client'])->name('trainer.add-client-page');
     Route::post('create_client',[TrainerClientController::class, 'create_client'])->name('trainer.add-client');
     Route::get('view_client/{id}',[TrainerClientController::class, 'view_client'])->name('trainer.view-client-page');
+    Route::get('client_workout_plan/{id}',[TrainerClientController::class, 'client_workout_plan'])->name('trainer.client-workout-plan');
+    Route::get('client_exercise_statics/{id}',[TrainerClientController::class, 'client_exercise_statics'])->name('trainer.client-exercise-statics');
+    Route::get('client_advanced_statics/{id}',[TrainerClientController::class, 'client_advanced_statics'])->name('trainer.client-advanced-statics');
+    Route::get('client_body_measurement/{id}',[TrainerClientController::class, 'client_body_measurement'])->name('trainer.client-body-measurement');
+    Route::get('client_progress_picture/{id}',[TrainerClientController::class, 'client_progress_picture'])->name('trainer.client-progress-picture');
+    Route::get('client_settings/{id}',[TrainerClientController::class, 'client_settings'])->name('trainer.client-settings');
+    Route::get('client_goals/{id}',[TrainerClientController::class, 'client_goals'])->name('trainer.client-goals');
+    Route::post('client_measurement',[TrainerClientController::class, 'client_measurement'])->name('trainer.get-client-measurement');
+    Route::post('add_measurement_log',[TrainerClientController::class, 'add_measurement_log'])->name('trainer.add-measurement-log');
     Route::get('edit_client/{id}',[TrainerClientController::class, 'edit_client'])->name('trainer.edit-client-page');
     Route::post('update_client/{id}',[TrainerClientController::class, 'update_client'])->name('trainer.edit-client');
     Route::get('client_status/{id}/{status}',[TrainerClientController::class, 'client_status'])->name('trainer.client-status');
@@ -70,6 +79,9 @@ Route::group(['middleware' => ['checktrainer',]], function () {
     Route::post('get_workout_plans',[TrainerWorkoutPlanController::class, 'get_workout_plans'])->name('trainer.get-workout-plans');
     Route::post('add_to_plan',[TrainerWorkoutPlanController::class, 'add_to_plan'])->name('trainer.add-to-plan');
     Route::post('filter_workout',[TrainerWorkoutPlanController::class, 'filter_workout'])->name('trainer.filter-workout');
+    Route::post('get_programs',[TrainerWorkoutPlanController::class, 'get_programs'])->name('trainer.get-programs');
+    Route::get('add_library/{id}',[TrainerWorkoutPlanController::class, 'add_library'])->name('trainer.add-to-library');
+    Route::get('delete_library/{id}',[TrainerWorkoutPlanController::class, 'delete_library'])->name('trainer.delete-library');
 
 
 });

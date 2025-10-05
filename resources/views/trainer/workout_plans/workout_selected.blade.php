@@ -5,10 +5,21 @@
         <img src="{{ asset(config('constants.admin_path').'uploads/workout/'.$workout->workout_image)}}" alt="{{$workout->workout_name}}" width="100%">
         </div>
         <div class="exercise-title">
-        <h5>{{$workout->workout_name}}</h5>
-        <p>{{$workout->muscle_group_name}}</p>
+            <h5>{{$workout->workout_name}}</h5>
+            <p>{{$workout->muscle_group_name}}</p>
         </div>
-        <button type="button" class="btn btn-danger btn-sm" onclick="removePlan({{$workout->workout_id}})">Remove</button>
+        <div class="form-group mb-4">
+                <label class="mb-2">Sets</label>
+                <input type="text" class="form-control-sm" name="workout_plan_exercise_sets[{{$workout->workout_id}}]" value="" autocomplete="off">
+        </div>
+        <div class="form-group mb-4">
+            <label class="mb-2">Reps</label>
+            <input type="text" class="form-control-sm" name="workout_plan_exercise_reps[{{$workout->workout_id}}]" value="" autocomplete="off">
+        </div>
+        <div class="text-center mb-2">
+            <button type="button" class="btn btn-danger btn-sm" onclick="removePlan({{$workout->workout_id}})">Remove</button>
+        </div>
+
     </div>
 </div>
 @endforeach

@@ -1,91 +1,109 @@
 @extends('trainer.layouts.app')
-@section('title','SPLT | Workouts')
-@section('sub_title','Workouts')
+@section('title','SPLT | Exercise')
+@section('sub_title','Exercise Library')
 @section('import_export')
 <li class="pc-h-item">
-    <a href="#" class="pc-head-btn me-3">
-        <span><img src="{{ asset(config('constants.admin_path').'images/icons/export-icon.svg')}}" alt="export-icon.svg"></span>
-        <span>Export</span>
-        <span><img src="{{ asset(config('constants.admin_path').'images/icons/chevron-down.svg')}}" alt="chevron-down.svg"></span>
-    </a>
 </li>
 <li class="pc-h-item">
-    <a href="#" class="pc-head-btn me-3">
-        <span><img src="{{ asset(config('constants.admin_path').'images/icons/import-icon.svg')}}" alt="import-icon.svg"></span>
-        <span>Import</span>
-        <span><img src="{{ asset(config('constants.admin_path').'images/icons/chevron-down.svg')}}" alt="chevron-down.svg"></span>
-    </a>
 </li>
+@endsection
+@section('custom_style')
+<link rel="stylesheet" href="{{ asset(config('constants.admin_path').'css/trainer.css')}}" />
 @endsection
 @section('contents')
 <div class="pc-container">
-    <div class="pc-content">
+   <div class="pc-content">
         <!-- [ breadcrumb ] start -->
         <div class="page-header">
             <div class="page-block">
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{url('trainer/dashboard')}}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('admin.dashboard-page')}}">Home</a></li>
                             <li class="breadcrumb-item text-white">/</li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0)">All Workouts</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Exercise Library</a></li>
                         </ul>
-                    </div>
-                    <div class="col-md-6 text-end">
-                        <div class="table-right-box__info">
-                            <div class="filter-box">
-                                <select class="form-control" id="category">
-                                    <option value="">All Category</option>
-                                     @foreach($workout_categories as $category)
-                                    <option value="{{$category->workout_category_id}}">{{$category->workout_category_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="filter-box">
-                                <select class="form-control" id="exercise_type">
-                                    <option value="">All Types</option>
-                                     @foreach($exercise_types as $exercise_type)
-                                    <option value="{{$exercise_type->exercise_type_id}}">{{$exercise_type->exercise_type_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="search-box">
-                            <input type="text" class="form-control" name="search" id="customSearch" placeholder="Search" autocomplete="off">
-                            <img src="{{ asset(config('constants.admin_path').'images/icons/search-inp.svg')}}" alt="search">
-                            </div>
-                            <div class="action-button">
-                            <a href="{{url('admin/add_workout')}}" class="btn-link"><i class="ti ti-plus f-16"></i> Add Workout</a>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <!-- [ breadcrumb ] end -->
         <!-- [ Main Content ] start -->
-        <div class="row mb-3">
-            <div class="col-lg-12 col-md-12">
-                <div class="card" style="background-color:transparent;border-color:unset;border: none;">
-                <div class="card-body p-0">
-                    <div class="table-responsive dt-responsive">
-                    <table id="workouts-management" class="table table-striped nowrap table-wrap">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Workout</th>
-                                <th>Type</th>
-                                <th>Category</th>
-                                <th>Equipment</th>
-                                <th>Muscle group</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                    </table>
-                    </div>
-                </div>
+        <div class="card" style="background-color:transparent;border-color:unset;border: none;">
+            <div class="card-body p-0">
+                <div class="form-wrapper">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-12">
+                            <div class="summary-panel">
+                                <div class="exercise-sidebar">
+                                    <div class="exercise-filter__box">
+                                        <div class="form-group">
+                                            <select class="form-control text-center" id="exercise_type" onchange="filter_workout()">
+                                            <option value="">All Exercises</option>
+                                            @foreach($exercise_types as $exercise_type)
+                                            <option value="{{$exercise_type->exercise_type_id}}">{{$exercise_type->exercise_type_name}}</option>
+                                            @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <select class="form-control text-center" id="category" onchange="filter_workout()">
+                                                <option value="">All Category</option>
+                                                @foreach($workout_categories as $category)
+                                                <option value="{{$category->workout_category_id}}">{{$category->workout_category_name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="d-flex justify-content-between gap-13">
+                                            <div class="form-group w-100">
+                                            <select class="form-control text-center" id="equipment" onchange="filter_workout()">
+                                                <option value="">All Equipment</option>
+                                                @foreach($equipments as $equipment)
+                                                <option value="{{$equipment->equipment_id}}">{{$equipment->equipment_name}}</option>
+                                                @endforeach
+                                            </select>
+                                            </div>
+                                            <div class="form-group w-100">
+                                            <select class="form-control text-center" id="muscle_group" onchange="filter_workout()">
+                                                <option value="">All Muscles</option>
+                                                @foreach($muscle_groups as $muscle_group)
+                                                <option value="{{$muscle_group->muscle_group_id}}">{{$muscle_group->muscle_group_name}}</option>
+                                                @endforeach
+                                            </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="all-exercise">
+                                        <h4>All Exercises</h4>
+                                        <input type="hidden" name="exercises" id="exercises" value="">
+                                        <div id="workout_list">
+                                            @foreach($workouts as $workout)
+                                            <div class="exercise-item__box" id="workout_{{$workout->workout_id}}">
+                                                <div class="exercise-img">
+                                                <img src="{{ asset(config('constants.admin_path').'uploads/workout/'.$workout->workout_image)}}" alt="{{$workout->workout_name}}">
+                                                </div>
+                                                <div class="exercise-title">
+                                                <h5>{{$workout->workout_name}}</h5>
+                                                <p>{{$workout->muscle_group_name}}</p>
+                                                </div>
+                                                <button type="button" class="btn btn-primary btn-sm" onclick="addToPlan({{$workout->workout_id}})">Add</button>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-12">
+					        <div class="row">
+							   <div class="col-lg-8">
+							      <label class="mb-2">Selected Workouts</label>
+                                     <div id="workout_list_selected" class="row">
+                                     </div>
+							   </div>
+							</div>
+                      </div>
+				   </div>
+                </form>
                 </div>
             </div>
         </div>
@@ -94,42 +112,63 @@
 @endsection
 @section('custom_script')
 <script>
-    $(document).ready(function () {
-        var dataTable =	$('#workouts-management').DataTable({
-        processing: true,
-        serverSide: true,
-        'ajax': {
-                type : 'POST',
-                url : "{{ route('trainer.get-workouts') }}",
-                'data': function(data){
+    function filter_workout()
+    {
+        var csrf = "{{ csrf_token() }}";
+        var exercise = $('#exercises').val();
+        var exercise_type = $('#exercise_type').val();
+        var equipment = $('#equipment').val();
+        var muscle_group = $('#muscle_group').val();
 
-                    var token = "{{ csrf_token() }}";
-                    var category = $('#category').val();
-                    var exercise_type = $('#exercise_type').val();
-                    data.category = category;
-                    data.exercise_type = exercise_type;
-                    data._token = token;
-                }
-        },
-        columns: [
-            {data: 'DT_RowIndex'},
-            {data: 'image'},
-            {data: 'exercise_type_name'},
-            {data: 'workout_category_name'},
-            {data: 'equipment_name'},
-            {data: 'muscle_group_name'},
-            {data: 'action',orderable: false, searchable: false}
-        ]
-    });
-    $('#customSearch').on('keyup', function () {
-    dataTable.search(this.value).draw();
-  });
-  $('#category').on('change', function () {
-    dataTable.draw();
-  });
-  $('#exercise_type').on('change', function () {
-    dataTable.draw();
-  });
-    });
+       $.ajax({
+            url:"{{route('trainer.filter-workout')}}",
+            type:"post",
+            data:'_token='+csrf+'&exercises='+exercise+'&exercise_type='+exercise_type+'&equipment='+equipment+'&muscle_group='+muscle_group,
+            success:function(data){
+                $('#workout_list').html(data);
+            }
+            });
+
+    }
+   function addToPlan(id)
+   {
+    var csrf = "{{ csrf_token() }}";
+    var exercise = $('#exercises').val();
+
+    if(exercise == '')
+    {
+        exercise = id+',';
+    }
+    else
+    {
+        exercise = exercise+id+',';
+    }
+
+    $('#exercises').val(exercise);
+
+    if(exercise != "")
+    {
+        $.ajax({
+            url:"{{route('trainer.add-to-plan')}}",
+            type:"post",
+            data:'_token='+csrf+'&exercises='+exercise,
+            success:function(data){
+                $('#workout_'+id).hide();
+                $('#workout_list_selected').html(data);
+            }
+            });
+    }
+   }
+
+   function removePlan(id)
+   {
+    let originalText = $('#exercises').val();
+    let updatedText = originalText.replace(id+',','');
+    $('#exercises').val(updatedText);
+
+    $('#workout_'+id).show();
+    $('#workout_added_'+id).remove();
+   }
+
 </script>
 @endsection

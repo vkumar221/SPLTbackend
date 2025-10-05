@@ -77,7 +77,7 @@
                         <div class="order-column">
                             <div class="order-item">
                             <p>Order Status:</p>
-                            <span>@if($order->order_status == 1) Placed @elseif($order->order_status == 2) Processed @elseif($order->order_status == 3) Shipped @elseif($order->order_status == 4) Delivered @elseif($order->order_status == 5) Cancelled @else Returned @endif</span>
+                            <span>@if($order->order_status == 1) Placed @elseif($order->order_status == 2) Confirmed @elseif($order->order_status == 3) Shipped @elseif($order->order_status == 4) Delivered @elseif($order->order_status == 5) Cancelled @else Returned @endif</span>
                             </div>
                             <div class="order-item">
                             <p>E-Mail:</p>
@@ -105,7 +105,7 @@
                         <div class="row-item"><label>Telephone:</label><span><input type="text" value="{{$order->order_phone}}" readonly></span></div>
                         <div class="row-item"><label>Payment Method:</label><span>@if($order->order_payment == 1) Stripe @elseif($order->order_payment == 2) Google Pay @else Apple Pay @endif</span></div>
                         <div class="row-item"><label>IP Address:</label><span>{{$order->order_ip}}</span></div>
-                        <div class="row-item"><label>Order Status:</label><span>@if($order->order_status == 1) Placed @elseif($order->order_status == 2) Processed @elseif($order->order_status == 3) Shipped @elseif($order->order_status == 4) Delivered @elseif($order->order_status == 5) Cancelled @else Returned @endif</span></div>
+                        <div class="row-item"><label>Order Status:</label><span>@if($order->order_status == 1) Placed @elseif($order->order_status == 2) Confirmed @elseif($order->order_status == 3) Shipped @elseif($order->order_status == 4) Delivered @elseif($order->order_status == 5) Cancelled @else Returned @endif</span></div>
                         <div class="row-item"><label>Invoice ID:</label><span><button class="btn-generate">Generate</button></span></div>
                         <div class="row-item total-row">
                         <label>Original Order Total:</label>
@@ -278,8 +278,8 @@
                     </div>
                 </div>
                 <div class="status-comments">
-                    <h2>Status & Comments</h2>
                       @if($comments->count() > 0)
+                      <h2>Status & Comments</h2>
                     <div class="comments-info__box">
                         <div class="table-responsive mb-3">
                             <table class="table table-bordered">
@@ -300,7 +300,7 @@
                                         <td>{{$comment->product_name}}<br>{{$comment->product_variant_name}}</td>
                                         <td>{{$comment->order_comment_text}}</td>
                                         <td>
-                                            @if($comment->order_comment_order_status == 1) Placed @elseif($comment->order_comment_order_status == 2) Processed @elseif($comment->order_comment_order_status == 3) Shipped @elseif($comment->order_comment_order_status == 4) Delivered @elseif($comment->order_comment_order_status == 5) Cancelled @else Returned @endif
+                                            @if($comment->order_comment_order_status == 1) Placed @elseif($comment->order_comment_order_status == 2) Confirmed @elseif($comment->order_comment_order_status == 3) Shipped @elseif($comment->order_comment_order_status == 4) Delivered @elseif($comment->order_comment_order_status == 5) Cancelled @else Returned @endif
                                         </td>
                                         <td>@if($comment->order_comment_nofity == 2) Yes @else No @endif</td>
                                         <td>{{date('d-m-Y h:i a',strtotime($comment->order_comment_added_on))}}</td>
@@ -322,7 +322,7 @@
                             <div class="col-lg-10 col-12 mb-3">
                                 <select name="order_status" id="order_status" class="form-control">
                                     <option value="1" @if($order->order_status == 1) selected @endif>Placed</option>
-                                    <option value="2" @if($order->order_status == 2) selected @endif>Processed</option>
+                                    <option value="2" @if($order->order_status == 2) selected @endif>Confirmed</option>
                                     <option value="3" @if($order->order_status == 3) selected @endif>Shipped</option>
                                     <option value="4" @if($order->order_status == 4) selected @endif>Delivered</option>
                                     <option value="5" @if($order->order_status == 5) selected @endif>Cancelled</option>
@@ -396,7 +396,7 @@
                                         <td>
                                             <select name="order_item_status[{{$item->order_item_id}}]" id="order_item_status{{$item->order_item_id}}" class="form-control">
                                             <option value="1" @if($item->order_item_status == 1) selected @endif>Placed</option>
-                                            <option value="2" @if($item->order_item_status == 2) selected @endif>Processed</option>
+                                            <option value="2" @if($item->order_item_status == 2) selected @endif>Confirmed</option>
                                             <option value="3" @if($item->order_item_status == 3) selected @endif>Shipped</option>
                                             <option value="4" @if($item->order_item_status == 4) selected @endif>Delivered</option>
                                             <option value="5" @if($item->order_item_status == 5) selected @endif>Cancelled</option>

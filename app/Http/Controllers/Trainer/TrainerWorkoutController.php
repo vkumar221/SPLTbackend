@@ -19,8 +19,10 @@ class TrainerWorkoutController extends Controller
     public function index(Request $request)
     {
         $data['set'] = 'workout_plans';
-        $data['workout_categories'] = WorkoutCategory::where('workout_category_status',1)->get();
         $data['exercise_types'] = ExerciseType::where('exercise_type_status',1)->get();
+        $data['muscle_groups'] = MuscleGroup::where('muscle_group_status',1)->get();
+        $data['workout_categories'] = WorkoutCategory::where('workout_category_status',1)->get();
+        $data['equipments'] = Equipment::where('equipment_status',1)->get();
         return view('trainer.workouts.workouts',$data);
     }
 

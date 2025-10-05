@@ -12,7 +12,7 @@ class WorkoutPlanExercise extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['workout_plan_plan','workout_plan_exercise','created_at','updated_at'];
+    protected $fillable = ['workout_plan_plan','workout_plan_exercise','workout_plan_exercise_sets','workout_plan_exercise_reps','created_at','updated_at'];
 
     public static function getDetails($where)
     {

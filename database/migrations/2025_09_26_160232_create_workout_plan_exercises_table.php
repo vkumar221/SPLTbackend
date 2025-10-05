@@ -15,6 +15,8 @@ return new class extends Migration
             $table->bigIncrements('workout_plan_exercise_id');
             $table->integer('workout_plan_plan')->default(1);
             $table->integer('workout_plan_exercise')->default(1);
+            $table->string('workout_plan_exercise_sets')->nullable();
+            $table->string('workout_plan_exercise_reps')->nullable();
             $table->timestamps();
         });
     }

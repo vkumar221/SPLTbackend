@@ -57,6 +57,24 @@
 								  </div>
 							   </div>
                                <div class="col-lg-6">
+							      <div class="form-group mb-4">
+								     <label class="mb-2">Main Goal</label>
+									 <input type="text" class="form-control" name="workout_plan_goal" id="workout_plan_goal	" value="{{old('workout_plan_goal')}}" autocomplete="off">
+                                     @if($errors->has('workout_plan_goal'))
+                                    <p class="text-danger">{{ $errors->first('workout_plan_goal') }}</p>
+                                    @endif
+								  </div>
+							   </div>
+                               <div class="col-lg-6">
+							      <div class="form-group mb-4">
+								     <label class="mb-2">Days / Weeks</label>
+									 <input type="text" class="form-control" name="workout_plan_days" id="workout_plan_days" value="{{old('workout_plan_days')}}" autocomplete="off">
+                                     @if($errors->has('workout_plan_days'))
+                                    <p class="text-danger">{{ $errors->first('workout_plan_days') }}</p>
+                                    @endif
+								  </div>
+							   </div>
+                               <div class="col-lg-6">
                                     <div class="form-group mb-4">
                                     <label for="workout_category">Category</label>
                                     <select class="form-control" name="workout_plan_category" id="workout_plan_category">

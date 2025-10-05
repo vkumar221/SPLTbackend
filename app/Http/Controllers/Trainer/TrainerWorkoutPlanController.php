@@ -22,7 +22,16 @@ class TrainerWorkoutPlanController extends Controller
     {
         $data['set'] = 'workout_plans';
         $data['workout_categories'] = WorkoutCategory::where('workout_category_status',1)->get();
-        $data['my_workout_plans'] = WorkoutPlan::getDetails(['workout_plan_added_role'=>3,'workout_plan_added_by'=>Auth::guard('trainer')->user()->trainer_id]);
+        $data['my_workout_plans'] = WorkoutPlan::getPlanTrainer(['trainer_workout_trainer'=>Auth::guard('trainer')->user()->trainer_id]);
+        $exercises = WorkoutPlanExercise::get();
+        if($exercises->count() > 0)
+        {
+            foreach($exercises as $exercise)
+            {
+                $workout[$exercise->workout_plan_plan][] = $exercise->workout_plan_exercise_id;
+            }
+            $data['excersises'] = $workout;
+        }
         return view('trainer.workout_plans.workout_plans',$data);
     }
 
@@ -115,9 +124,11 @@ class TrainerWorkoutPlanController extends Controller
             }
 
             $ins['workout_plan_name']          = $request->workout_plan_name;
-            $ins['workout_plan_duration']     = $request->workout_plan_duration;
+            $ins['workout_plan_duration']      = $request->workout_plan_duration;
             $ins['workout_plan_category']      = $request->workout_plan_category;
             $ins['workout_plan_note']          = $request->workout_plan_note;
+            $ins['workout_plan_goal']          = $request->workout_plan_goal;
+            $ins['workout_plan_days']          = $request->workout_plan_days;
             $ins['workout_plan_status']        = 1;
             $ins['workout_plan_added_role']    = 3;
             $ins['workout_plan_added_by']      = Auth::guard('trainer')->user()->trainer_id;
@@ -128,12 +139,15 @@ class TrainerWorkoutPlanController extends Controller
             $workout_plan_id = WorkoutPlan::insertGetId($ins);
 
             $exercises = explode(',',$request->exercises);
+
             foreach($exercises as $key => $exercise)
             {
                 if($exercise != NULL)
                 {
                     $insEx['workout_plan_exercise']  = $exercise;
                     $insEx['workout_plan_plan']      = $workout_plan_id;
+                    $insEx['workout_plan_exercise_sets']  = $request->workout_plan_exercise_sets[$exercise];
+                    $insEx['workout_plan_exercise_reps']   = $request->workout_plan_exercise_reps[$exercise];
 
                     WorkoutPlanExercise::create($insEx);
                 }
@@ -141,6 +155,11 @@ class TrainerWorkoutPlanController extends Controller
 
             if($workout_plan_id)
             {
+                $trn_plan['trainer_workout_plan'] = $workout_plan_id;
+                $trn_plan['trainer_workout_trainer'] = Auth::guard('trainer')->user()->trainer_id;
+
+                DB::table('trainer_workout_plans')->insert($trn_plan);
+
                 return redirect()->back()->with('success','Workout Added Successfully');
             }
         }
@@ -203,6 +222,8 @@ class TrainerWorkoutPlanController extends Controller
             $upd['workout_plan_duration']      = $request->workout_plan_duration;
             $upd['workout_plan_category']      = $request->workout_plan_category;
             $upd['workout_plan_note']          = $request->workout_plan_note;
+            $upd['workout_plan_goal']          = $request->workout_plan_goal;
+            $upd['workout_plan_days']          = $request->workout_plan_days;
             $upd['workout_plan_updated_by']    = Auth::guard('trainer')->user()->trainer_id;
             $upd['workout_plan_updated_on']    = date('Y-m-d H:i:s');
 
@@ -217,6 +238,8 @@ class TrainerWorkoutPlanController extends Controller
                 {
                     $insEx['workout_plan_exercise']  = $exercise;
                     $insEx['workout_plan_plan']      = $request->segment(3);
+                    $insEx['workout_plan_exercise_sets']  = $request->workout_plan_exercise_sets[$exercise];
+                    $insEx['workout_plan_exercise_reps']   = $request->workout_plan_exercise_reps[$exercise];
 
                     WorkoutPlanExercise::create($insEx);
                 }
@@ -291,6 +314,60 @@ class TrainerWorkoutPlanController extends Controller
         $data['excercises'] = Workout::getDetailFilter($where,$exercises);
 
         return view('trainer.workout_plans.workout_list',$data);
+
+    }
+
+    public function get_programs(Request $request)
+    {
+        $where['workout_plan_status'] = 1;
+        $where['workout_plan_added_role'] = 1;
+
+        if($request->category != 0)
+        {
+            $where['workout_plan_category'] = $request->category;
+        }
+
+        $data['workout_plans'] = WorkoutPlan::getDetails($where);
+
+        return view('trainer.workout_plans.workout_plan_list',$data);
+
+    }
+
+    public function add_library(Request $request)
+    {
+        $id = $request->segment(3);
+
+        $check = DB::table('trainer_workout_plans')->where(['trainer_workout_plan'=>$id,'trainer_workout_trainer'=>Auth::guard('trainer')->user()->trainer_id])->count();
+
+        if($check == 0)
+        {
+            DB::table('trainer_workout_plans')->insert(['trainer_workout_plan'=>$id,'trainer_workout_trainer'=>Auth::guard('trainer')->user()->trainer_id]);
+
+            return redirect()->back()->with('success','Workout Plan added to your Library');
+        }
+        else
+        {
+            return redirect()->back()->with('error','Workout Plan is already on your Library');
+        }
+
+    }
+
+    public function delete_library(Request $request)
+    {
+        $id = $request->segment(3);
+
+        $check = DB::table('trainer_workout_plans')->where(['trainer_workout_plan'=>$id,'trainer_workout_trainer'=>Auth::guard('trainer')->user()->trainer_id])->count();
+
+        if($check > 0)
+        {
+            DB::table('trainer_workout_plans')->where(['trainer_workout_plan'=>$id,'trainer_workout_trainer'=>Auth::guard('trainer')->user()->trainer_id])->delete();
+
+            return redirect()->back()->with('success','Workout Plan deleted from Library');
+        }
+        else
+        {
+            return redirect()->back()->with('error','Workout Plan is not in your Library');
+        }
 
     }
 

@@ -109,6 +109,8 @@ class AdminWorkoutPlanController extends Controller
             $ins['workout_plan_duration']     = $request->workout_plan_duration;
             $ins['workout_plan_category']      = $request->workout_plan_category;
             $ins['workout_plan_note']          = $request->workout_plan_note;
+            $ins['workout_plan_goal']          = $request->workout_plan_goal;
+            $ins['workout_plan_days']          = $request->workout_plan_days;
             $ins['workout_plan_status']        = 1;
             $ins['workout_plan_added_by']      = Auth::guard('admin')->user()->admin_id;
             $ins['workout_plan_added_on']      = date('Y-m-d H:i:s');
@@ -124,6 +126,8 @@ class AdminWorkoutPlanController extends Controller
                 {
                     $insEx['workout_plan_exercise']  = $exercise;
                     $insEx['workout_plan_plan']      = $workout_plan_id;
+                    $insEx['workout_plan_exercise_sets']  = $request->workout_plan_exercise_sets[$exercise];
+                    $insEx['workout_plan_exercise_reps']   = $request->workout_plan_exercise_reps[$exercise];
 
                     WorkoutPlanExercise::create($insEx);
                 }
@@ -193,6 +197,8 @@ class AdminWorkoutPlanController extends Controller
             $upd['workout_plan_duration']      = $request->workout_plan_duration;
             $upd['workout_plan_category']      = $request->workout_plan_category;
             $upd['workout_plan_note']          = $request->workout_plan_note;
+            $upd['workout_plan_goal']          = $request->workout_plan_goal;
+            $upd['workout_plan_days']          = $request->workout_plan_days;
             $upd['workout_plan_updated_by']    = Auth::guard('admin')->user()->admin_id;
             $upd['workout_plan_updated_on']    = date('Y-m-d H:i:s');
 
@@ -207,6 +213,8 @@ class AdminWorkoutPlanController extends Controller
                 {
                     $insEx['workout_plan_exercise']  = $exercise;
                     $insEx['workout_plan_plan']      = $request->segment(3);
+                    $insEx['workout_plan_exercise_sets']  = $request->workout_plan_exercise_sets[$exercise];
+                    $insEx['workout_plan_exercise_reps']   = $request->workout_plan_exercise_reps[$exercise];
 
                     WorkoutPlanExercise::create($insEx);
                 }

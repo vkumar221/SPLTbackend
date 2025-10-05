@@ -199,8 +199,8 @@
                     </div>
                 </div>
                 <div class="status-comments">
-                    <h2>Status & Comments</h2>
                      @if($comments->count() > 0)
+                      <h2>Status & Comments</h2>
                     <div class="comments-info__box">
                         <div class="table-responsive mb-3">
                             <table class="table table-bordered">
@@ -256,7 +256,7 @@
                                         <td>
                                             <select name="order_item_status[{{$item->order_item_id}}]" id="order_item_status{{$item->order_item_id}}" class="form-control">
                                             <option value="1" @if($item->order_item_status == 1) selected @endif>Placed</option>
-                                            <option value="2" @if($item->order_item_status == 2) selected @endif>Processed</option>
+                                            <option value="2" @if($item->order_item_status == 2) selected @endif>Confirmed</option>
                                             <option value="3" @if($item->order_item_status == 3) selected @endif>Shipped</option>
                                             <option value="4" @if($item->order_item_status == 4) selected @endif>Delivered</option>
                                             <option value="5" @if($item->order_item_status == 5) selected @endif>Cancelled</option>

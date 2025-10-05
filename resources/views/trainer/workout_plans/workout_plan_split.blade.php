@@ -56,40 +56,17 @@
                     <h2>Categories</h2>
                     <ul class="menu-list">
                         <li class="menu-item">
-                        <a href="#" class="menu-link active">
+                        <a href="javascript:void(0);" id="workout_0" class="menu-link active" onclick="change_program(0);">
                             <span class="menu-txt font-size-16">All Programs</span>
                         </a>
                         </li>
+                        @foreach($workout_categories as $workout_category)
                         <li class="menu-item">
-                        <a href="#" class="menu-link">
-                            <span class="menu-txt font-size-16">Beginner</span>
+                        <a href="javascript:void(0);" id="workout_{{$workout_category->workout_category_id}}" class="menu-link" onclick="change_program({{$workout_category->workout_category_id}});">
+                            <span class="menu-txt font-size-16">{{$workout_category->workout_category_name}}</span>
                         </a>
                         </li>
-                        <li class="menu-item">
-                        <a href="#" class="menu-link">
-                            <span class="menu-txt font-size-16">Intermediate</span>
-                        </a>
-                        </li>
-                        <li class="menu-item">
-                        <a href="#" class="menu-link">
-                            <span class="menu-txt font-size-16">Advanced</span>
-                        </a>
-                        </li>
-                        <li class="menu-item">
-                        <a href="#" class="menu-link">
-                            <span class="menu-txt font-size-16">Muscle Growth</span>
-                        </a>
-                        </li>
-                        <li class="menu-item">
-                        <a href="#" class="menu-link">
-                            <span class="menu-txt font-size-16">Strength</span>
-                        </a>
-                        </li>
-                        <li class="menu-item">
-                        <a href="#" class="menu-link">
-                            <span class="menu-txt font-size-16">Home Training</span>
-                        </a>
-                        </li>
+                        @endforeach
                     </ul>
                 </div>
                 <div class="content-area">
@@ -98,7 +75,7 @@
                         <div class="my-library__item-box">
                             <div class="title-header">
                             <h3>{{$workout->workout_plan_name }}</h3>
-                            <a href="#" class="download-btn"><img src="{{ asset(config('constants.admin_path').'images/icons/download-white.svg')}}" alt="download">Add to My Library</a>
+                            <a href="{{url('trainer/add_library/'.$workout->workout_plan_id)}}" class="download-btn"><img src="{{ asset(config('constants.admin_path').'images/icons/download-white.svg')}}" alt="download">Add to My Library</a>
                             </div>
                             <p>{{$workout->workout_plan_note}}
                             </p>
@@ -114,5 +91,26 @@
             </div>
     </div>
 </div>
+@endsection
+@section('custom_script')
+<script>
+function change_program(id)
+{
+    $('.menu-link').removeClass('active');
+    $('#workout_'+id).addClass('active');
+
+    var csrf = "{{ csrf_token() }}";
+    $.ajax({
+        url:"{{route('trainer.get-programs')}}",
+        type:"post",
+        data:'_token='+csrf+'&category='+id,
+        success:function(data)
+        {
+            $('.my-library__item-box').html(data);
+        }
+
+        });
+}
+</script>
 @endsection
 

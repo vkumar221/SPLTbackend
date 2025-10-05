@@ -59,7 +59,7 @@
                 <div class="title-box">
                     <img src="{{ asset(config('constants.admin_path').'images/icons/files-b.svg')}}" alt="Workout Plans">
                     <h2>My Workout Plans</h2>
-                    <span class="count">0</span>
+                    <span class="count">{{$my_workout_plans->count()}}</span>
                 </div>
                 <div class="workout-plans-grid">
                     @if($my_workout_plans->count() > 0)
@@ -68,15 +68,18 @@
                         <div class="workout-plan-content">
                         <h3>{{$plan->workout_plan_name}}</h3>
                         <p>{{$plan->workout_category_name}}</p>
+                        <p>@if(isset($excersises[$plan->workout_plan_id])){{count($excersises[$plan->workout_plan_id])}} Exersises @endif</p>
                         </div>
                         <div class="dropdown">
                         <a href="javascript:void(0)" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{ asset(config('constants.admin_path').'images/icons/toggle.svg')}}" alt="toggle"></a>
                         <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
-                            <a href="#!" class="dropdown-item">Copy Program to Clients</a>
-                            <a href="{{url('trainer/edit_workout_plan/'.$plan->workout_plan_id )}}" class="dropdown-item">Edit Program</a>
-                            <a href="#!" class="dropdown-item">Duplicate Program</a>
-                            <a href="#!" class="dropdown-item">Move To Folder</a>
-                            <a href="#!" class="dropdown-item">Delete Program</a>
+                            {{-- <a href="#!" class="dropdown-item">Copy Program to Clients</a> --}}
+                            @if($plan->workout_plan_added_role == 3 && $plan->workout_plan_added_by == Auth::guard('trainer')->user()->trainer_id)
+                            <a href="{{url('trainer/edit_workout_plan/'.$plan->workout_plan_id )}}" class="dropdown-item text-dark">Edit Program</a>
+                            @endif
+                            {{-- <a href="#!" class="dropdown-item">Duplicate Program</a>
+                            <a href="#!" class="dropdown-item">Move To Folder</a> --}}
+                            <a href="{{url('trainer/delete_library/'.$plan->workout_plan_id )}}" class="dropdown-item">Delete Program</a>
                         </div>
                         </div>
                     </div>
