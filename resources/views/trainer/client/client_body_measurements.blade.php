@@ -117,7 +117,7 @@
         {
             $('.menu-link').removeClass('active');
             $('#body_part_'+id).addClass('active');
-            var client = "{{$client->client_id}}";
+            var client = "{{$user->id}}";
 
             var csrf = "{{ csrf_token() }}";
             $.ajax({

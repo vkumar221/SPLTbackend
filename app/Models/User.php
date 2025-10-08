@@ -17,7 +17,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = ['fname','lname','uname','uname','password','image','role','status','created_by','updated_by'];
+    protected $fillable = ['fname','lname','uname','uname','password','image','phone','role','status','trash','added_by','added_on','updated_by','updated_on'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -37,4 +37,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function getClientTrainer($where)
+    {
+        $user = new User;
+
+        return $user->select('*')
+                        ->join('trainer_clients','trainer_clients.trainer_client','users.id')
+                        ->where($where)
+                        ->orderby('trainer_client_id','desc')
+                        ->get();
+    }
 }

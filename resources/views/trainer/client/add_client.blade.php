@@ -36,38 +36,56 @@
                     <div class="row">
                     <div class="col-lg-6 col-md-6 col-12">
                         <div class="form-group">
-                        <label for="client_name">Client name</label>
-                        <input type="text" class="form-control" name="client_name" id="client_name" value="{{old('client_name')}}" autocomplete="off">
+                        <label for="fname">First name</label>
+                        <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname')}}" autocomplete="off">
                         </div>
-                        @if($errors->has('client_name'))
-                        <p class="text-danger">{{ $errors->first('client_name') }}</p>
+                        @if($errors->has('fname'))
+                        <p class="text-danger">{{ $errors->first('fname') }}</p>
                         @endif
                     </div>
                     <div class="col-lg-6 col-md-6 col-12">
                         <div class="form-group">
-                        <label for="client_email">Client Email</label>
-                        <input type="text" class="form-control" name="client_email" id="client_email" value="{{old('client_email')}}" autocomplete="off">
+                        <label for="lname">Last name</label>
+                        <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname')}}" autocomplete="off">
                         </div>
-                        @if($errors->has('client_email'))
-                        <p class="text-danger">{{ $errors->first('client_email') }}</p>
+                        @if($errors->has('lname'))
+                        <p class="text-danger">{{ $errors->first('lname') }}</p>
                         @endif
                     </div>
                     <div class="col-lg-6 col-md-6 col-12">
                         <div class="form-group">
-                        <label for="client_phone">Client Phone</label>
-                        <input type="text" class="form-control" name="client_phone" id="client_phone" value="{{old('client_phone')}}" autocomplete="off">
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" name="email" id="email" value="{{old('email')}}" autocomplete="off">
                         </div>
-                        @if($errors->has('client_phone'))
-                        <p class="text-danger">{{ $errors->first('client_phone') }}</p>
+                        @if($errors->has('email'))
+                        <p class="text-danger">{{ $errors->first('email') }}</p>
                         @endif
                     </div>
                     <div class="col-lg-6 col-md-6 col-12">
                         <div class="form-group">
-                        <label for="client_password">Client Password</label>
-                        <input type="password" class="form-control" name="client_password" id="client_password" value="{{old('client_password')}}" autocomplete="off">
+                        <label for="phone">Phone</label>
+                        <input type="text" class="form-control" name="phone" id="phone" value="{{old('phone')}}" autocomplete="off">
                         </div>
-                        @if($errors->has('client_phone'))
-                        <p class="text-danger">{{ $errors->first('client_phone') }}</p>
+                        @if($errors->has('phone'))
+                        <p class="text-danger">{{ $errors->first('phone') }}</p>
+                        @endif
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                        <label for="uname">User name</label>
+                        <input type="text" class="form-control" name="uname" id="uname" value="{{old('uname')}}" autocomplete="off">
+                        </div>
+                        @if($errors->has('uname'))
+                        <p class="text-danger">{{ $errors->first('uname') }}</p>
+                        @endif
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" name="password" id="password" value="{{old('password')}}" autocomplete="off">
+                        </div>
+                        @if($errors->has('password'))
+                        <p class="text-danger">{{ $errors->first('password') }}</p>
                         @endif
                     </div>
                     <div class="col-lg-12 col-md-12 col-12">
@@ -77,10 +95,10 @@
                         <div class="custom-file-wrapper">
                             <span class="file-name"></span>
                             <button type="button" class="browse-btn">Browse</button>
-                            <input type="file" name="client_image" id="client_image" class="custom-file-input">
+                            <input type="file" name="image" id="client_image" class="custom-file-input">
                         </div>
-                        @if($errors->has('client_image'))
-                        <p class="text-danger">{{ $errors->first('banner_image') }}</p>
+                        @if($errors->has('image'))
+                        <p class="text-danger">{{ $errors->first('image') }}</p>
                         @endif
                         </div>
                     </div>

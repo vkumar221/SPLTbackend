@@ -8,6 +8,7 @@ use App\Http\Controllers\API\UserHomeController;
 use App\Http\Controllers\API\UserCategoryController;
 use App\Http\Controllers\API\UserPromoCodeController;
 use App\Http\Controllers\API\UserProductController;
+use App\Http\Controllers\API\UserPlanController;
 use App\Http\Controllers\API\UserProfileController;
 use App\Http\Controllers\API\UserCartController;
 use App\Http\Controllers\API\UserCheckoutController;
@@ -76,6 +77,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('order_cancel', [UserOrderController::class, 'order_cancel']);
     Route::post('order_review', [UserOrderController::class, 'order_review']);
 
+    //Plans
+    Route::get('plans', [UserPlanController::class, 'index']);
 
 });
 

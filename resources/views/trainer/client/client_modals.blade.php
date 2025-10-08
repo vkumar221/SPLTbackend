@@ -168,7 +168,7 @@ function submit_log()
     var client_measurement = $('#client_measurement').val();
     var client_measurement_date = $('#client_measurement_date').val();
     var client_measurement_part = $('#client_measurement_part').val();
-    var client = "{{$client->client_id}}";
+    var client = "{{$user->id}}";
 
     var csrf = "{{ csrf_token() }}";
 

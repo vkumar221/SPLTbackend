@@ -17,16 +17,21 @@ return new class extends Migration
             $table->string('lname')->nullable();
             $table->string('uname');
             $table->string('email')->unique();
+            $table->string('phone')->nullable();
             $table->string('image')->nullable();
             $table->string('password');
             $table->string('otp')->nullable();
             $table->integer('role')->default(1);
             $table->integer('status')->default(1);
+            $table->integer('trash')->default(0);
+            $table->timestamp('added_on')->useCurrent();
+            $table->integer('added_by')->default(1);
+            $table->timestamp('updated_on')->useCurrent();
+            $table->integer('updated_by')->default(1);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('verify_within')->nullable();
             $table->rememberToken();
-            $table->timestamps();
         });
     }
 

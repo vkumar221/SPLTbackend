@@ -53,7 +53,7 @@
                                     <option value="2" @if(old('promo_code_type') == 2) selected @endif>Percentange</option>
                                 </select>
                             </div>
-                             @if($errors->has('promo_code_name'))
+                             @if($errors->has('promo_code_type'))
                                 <p class="text-danger">{{ $errors->first('promo_code_type') }}</p>
                             @endif
                         </div>

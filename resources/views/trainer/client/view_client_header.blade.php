@@ -18,11 +18,15 @@
     <div class="col-lg-6 col-md-6 col-12">
         <div class="clients-info__box">
             <div class="clients_img">
-            <img src="{{ asset(config('constants.admin_path').'/images/user-placeholder.png')}}" alt="user">
+            @if($user->image == NULL)
+            <img src="{{ asset(config('constants.admin_path').'images/user-placeholder.png')}}" alt="user">
+            @else
+            <img src="{{ asset(config('constants.user_path').'uploads/profile/'.$user->image)}}" alt="user" width="100">
+            @endif
             </div>
             <div class="clients_content">
-            <h2>{{$client->client_name}}</h2>
-            <span>{{$client->client_email}}</span>
+            <h2>{{$user->fname.' '.$user->lname}}</h2>
+            <span>{{$user->user_email}}</span>
             <p>Hasn't worked out yet</p>
             </div>
         </div>

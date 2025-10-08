@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\AdminMuscleGroupController;
 use App\Http\Controllers\Admin\AdminWorkoutCategoryController;
 use App\Http\Controllers\Admin\AdminWorkoutController;
 use App\Http\Controllers\Admin\AdminWorkoutPlanController;
+use App\Http\Controllers\Admin\AdminSubscriptionPlanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -191,6 +192,15 @@ Route::group(['middleware' => ['checkadmin',]], function () {
     Route::post('get_workout_plans',[AdminWorkoutPlanController::class, 'get_workout_plans'])->name('admin.get-workout-plans');
     Route::post('add_to_plan',[AdminWorkoutPlanController::class, 'add_to_plan'])->name('admin.add-to-plan');
     Route::post('filter_workout',[AdminWorkoutPlanController::class, 'filter_workout'])->name('admin.filter-workout');
+
+    //Subscription Plans
+    Route::get('subscription_plans', [AdminSubscriptionPlanController::class, 'index'])->name('admin.subscription-plans');
+    Route::get('add_subscription_plan',[AdminSubscriptionPlanController::class, 'add_subscription_plan'])->name('admin.add-subscription-plan-page');
+    Route::post('create_subscription_plan',[AdminSubscriptionPlanController::class, 'create_subscription_plan'])->name('admin.add-subscription-plan');
+    Route::get('edit_subscription_plan/{id}',[AdminSubscriptionPlanController::class, 'edit_subscription_plan'])->name('admin.edit-subscription-plan-page');
+    Route::post('update_subscription_plan/{id}',[AdminSubscriptionPlanController::class, 'update_subscription_plan'])->name('admin.edit-subscription-plan');
+    Route::get('subscription_plan_status/{id}/{status}',[AdminSubscriptionPlanController::class, 'subscription_plan_status'])->name('admin.subscription-plan-status');
+    Route::post('get_subscription_plans',[AdminSubscriptionPlanController::class, 'get_subscription_plans'])->name('admin.get-subscription-plans');
 
 
 });

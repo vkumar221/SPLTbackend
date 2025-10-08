@@ -22,7 +22,7 @@
                             <li class="breadcrumb-item text-white">/</li>
                             <li class="breadcrumb-item"><a href="{{route('admin.promo-codes')}}">All Promo Codes</a></li>
                             <li class="breadcrumb-item text-white">/</li>
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Add Promo Code</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Edit Promo Code</a></li>
                         </ul>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                                     <option value="2" @if($promo_code->promo_code_type == 2) selected @endif>Percentange</option>
                                 </select>
                             </div>
-                             @if($errors->has('promo_code_name'))
+                             @if($errors->has('promo_code_type'))
                                 <p class="text-danger">{{ $errors->first('promo_code_type') }}</p>
                             @endif
                         </div>

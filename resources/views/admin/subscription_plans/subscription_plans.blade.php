@@ -1,6 +1,6 @@
-@extends('trainer.layouts.app')
-@section('title','SPLT | Clients')
-@section('sub_title','Clients Management')
+@extends('admin.layouts.app')
+@section('title','SPLT | Subscription Plan')
+@section('sub_title','Subscription Plan Management')
 @section('import_export')
 <li class="pc-h-item">
     <a href="#" class="pc-head-btn me-3">
@@ -28,7 +28,7 @@
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{url('admin/dashboard')}}">Home</a></li>
                             <li class="breadcrumb-item text-white">/</li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0)">All Clients</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0)">All Subscription Plan</a></li>
                         </ul>
                     </div>
                     <div class="col-md-6 text-end">
@@ -38,7 +38,7 @@
                             <img src="{{ asset(config('constants.admin_path').'images/icons/search-inp.svg')}}" alt="search">
                             </div>
                             <div class="action-button">
-                            <a href="{{url('trainer/add_client')}}" class="btn-link"><i class="ti ti-plus f-16"></i> Add Client</a>
+                            <a href="{{url('admin/add_subscription_plan')}}" class="btn-link"><i class="ti ti-plus f-16"></i> Add Plan</a>
                             </div>
                         </div>
                     </div>
@@ -52,13 +52,14 @@
                 <div class="card" style="background-color:transparent;border-color:unset;border: none;">
                 <div class="card-body p-0">
                     <div class="table-responsive dt-responsive">
-                    <table id="clients-management" class="table table-striped nowrap table-wrap">
+                    <table id="subscription-plan-management" class="table table-striped nowrap table-wrap">
                         <thead>
                             <tr>
-                                <th></th>
-                                <th>Name</th>
-                                <th>Phone</th>
-                                <th>Email</th>
+                                <th>ID</th>
+                                <th>Image</th>
+                                <th>Plan</th>
+                                <th>Price</th>
+                                <th>Annual Discount</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -78,12 +79,12 @@
 @section('custom_script')
 <script>
     $(document).ready(function () {
-        var dataTable =	$('#clients-management').DataTable({
+        var dataTable =	$('#subscription-plan-management').DataTable({
         processing: true,
         serverSide: true,
         'ajax': {
                 type : 'POST',
-                url : "{{ route('trainer.get-clients') }}",
+                url : "{{ route('admin.get-subscription-plans') }}",
                 'data': function(data){
 
                     var token = "{{ csrf_token() }}";
@@ -92,9 +93,10 @@
         },
         columns: [
             {data: 'DT_RowIndex'},
-            {data: 'name'},
-            {data: 'phone'},
-            {data: 'email'},
+            {data: 'image'},
+            {data: 'subscription_plan_title'},
+            {data: 'price'},
+            {data: 'subscription_plan_discount'},
             {data: 'status'},
             {data: 'action',orderable: false, searchable: false}
         ]

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('trainer_type')->default(1);
             $table->integer('trainer_plan')->default(1);
             $table->text('trainer_image')->nullable();
+            $table->text('trainer_cover')->nullable();
             $table->string('trainer_facebook')->nullable();
             $table->string('trainer_instagram')->nullable();
             $table->string('trainer_tiktok')->nullable();

@@ -34,13 +34,30 @@
                     </a>
                 </li>
                 {{-- <li class="pc-item">
-                    <a href="{{route('trainer.exercise-library')}}" class="pc-link">
+                    <a href="{{route('trainer.workouts')}}" class="pc-link @if(isset($set) && $set == 'workouts') active @endif">
                         <span class="pc-micon">
                             <img src="{{ asset(config('constants.admin_path').'images/icons/exercise.svg')}}" alt="exercise">
                         </span>
                         <span class="pc-mtext" data-i18n="Exercise Library">Exercise Library</span>
                     </a>
                 </li> --}}
+                <li class="pc-item">
+                    <a href="{{route('trainer.certificates')}}" class="pc-link @if(isset($set) && $set == 'certificates') active @endif">
+                        <span class="pc-micon">
+                            <img src="{{ asset(config('constants.admin_path').'images/icons/achievements.svg') }}" alt="achievements.svg">
+                        </span>
+                        <span class="pc-mtext" data-i18n="Cerificates">Cerificates</span>
+                    </a>
+                </li>
+                <li class="pc-item">
+                    <a href="{{url('trainer/videos')}}" class="pc-link @if(isset($set) && $set == 'videos') active @endif">
+                        <span class="pc-micon">
+                            <img class="icon-active" src="{{ asset(config('constants.admin_path').'images/icons/videos.svg') }}" alt="files.svg">
+                            <img class="icon-default" src="{{ asset(config('constants.admin_path').'images/icons/videos.svg')}}" alt="videos">
+                        </span>
+                        <span class="pc-mtext" data-i18n="Videos Management">Videos Management</span>
+                    </a>
+                </li>
                 {{--
                 <li class="pc-item pc-hasmenu">
                     <a href="javascript:void(0)" class="pc-link">

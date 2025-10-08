@@ -179,15 +179,16 @@
                         <span class="pc-mtext" data-i18n="Trainers">Trainers</span>
                     </a>
                 </li>
-                {{--
                 <li class="pc-item">
-                    <a href="#!" class="pc-link">
+                    <a href="{{route('admin.subscription-plans')}}" class="pc-link @if(isset($set) && $set == 'subscription_plan') active @endif">
                         <span class="pc-micon">
-                            <img src="{{ asset(config('constants.admin_path').'images/icons/achievements.svg') }}" alt="achievements.svg">
+                            <img class="icon-active" src="{{ asset(config('constants.admin_path').'images/icons/reports-white.svg') }}" alt="reports.svg">
+                            <img class="icon-default" src="{{ asset(config('constants.admin_path').'images/icons/reports-blue.svg') }}" alt="reports.svg">
                         </span>
-                        <span class="pc-mtext" data-i18n="Achievements">Achievements</span>
+                        <span class="pc-mtext" data-i18n="Subscription Plans">Subscription Plan</span>
                     </a>
                 </li>
+                {{--
                 <li class="pc-item">
                     <a href="#!" class="pc-link">
                         <span class="pc-micon">

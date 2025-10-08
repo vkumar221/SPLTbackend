@@ -8,6 +8,8 @@ use App\Http\Controllers\Trainer\TrainerProfileController;
 use App\Http\Controllers\Trainer\TrainerClientController;
 use App\Http\Controllers\Trainer\TrainerWorkoutController;
 use App\Http\Controllers\Trainer\TrainerWorkoutPlanController;
+use App\Http\Controllers\Trainer\TrainerCertificateController;
+use App\Http\Controllers\Trainer\TrainerVideoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,6 +84,28 @@ Route::group(['middleware' => ['checktrainer',]], function () {
     Route::post('get_programs',[TrainerWorkoutPlanController::class, 'get_programs'])->name('trainer.get-programs');
     Route::get('add_library/{id}',[TrainerWorkoutPlanController::class, 'add_library'])->name('trainer.add-to-library');
     Route::get('delete_library/{id}',[TrainerWorkoutPlanController::class, 'delete_library'])->name('trainer.delete-library');
+
+    //Certificate
+    Route::get('certificates', [TrainerCertificateController::class, 'index'])->name('trainer.certificates');
+    Route::get('add_certificate',[TrainerCertificateController::class, 'add_certificate'])->name('trainer.add-certificate-page');
+    Route::post('create_certificate',[TrainerCertificateController::class, 'create_certificate'])->name('trainer.add-certificate');
+    Route::get('edit_certificate/{id}',[TrainerCertificateController::class, 'edit_certificate'])->name('trainer.edit-certificate-page');
+    Route::post('update_certificate/{id}',[TrainerCertificateController::class, 'update_certificate'])->name('trainer.edit-certificate');
+    Route::get('certificate_status/{id}/{status}',[TrainerCertificateController::class, 'certificate_status'])->name('trainer.certificate-status');
+    Route::post('get_certificates',[TrainerCertificateController::class, 'get_certificates'])->name('trainer.get-certificates');
+
+    //Video Section
+    Route::get('section_detail', [TrainerVideoController::class, 'section_detail'])->name('trainer.section-details');
+    Route::post('create_section', [TrainerVideoController::class, 'create_section'])->name('trainer.add-section');
+    Route::post('edit_section', [TrainerVideoController::class, 'edit_section'])->name('trainer.edit-section');
+
+    //Video
+    Route::get('videos', [TrainerVideoController::class, 'index'])->name('trainer.videos');
+    Route::get('add_video',[TrainerVideoController::class, 'add_video'])->name('trainer.add-video-page');
+    Route::post('create_video',[TrainerVideoController::class, 'create_video'])->name('trainer.add-video');
+    Route::get('edit_video/{id}',[TrainerVideoController::class, 'edit_video'])->name('trainer.edit-video-page');
+    Route::post('update_video/{id}',[TrainerVideoController::class, 'update_video'])->name('trainer.edit-video');
+    Route::get('video_status/{id}/{status}',[TrainerVideoController::class, 'video_status'])->name('trainer.video-status');
 
 
 });

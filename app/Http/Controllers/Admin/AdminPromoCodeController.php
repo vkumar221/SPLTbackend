@@ -161,7 +161,6 @@ class AdminPromoCodeController extends Controller
 
             if($validator->fails())
             {
-                print_r($validator->errors());exit;
                 return redirect()->back()->withErrors($validator->errors())->withInput();
             }
 
