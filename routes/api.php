@@ -45,6 +45,17 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('verify_new_mobile', [UserProfileController::class, 'verify_new_mobile']);
     Route::post('change_password', [UserProfileController::class, 'change_password']);
 
+    //Address
+    Route::post('add_address', [UserProfileController::class, 'add_address']);
+    Route::post('edit_address', [UserProfileController::class, 'edit_address']);
+    Route::get('delete_address/{id}', [UserProfileController::class, 'delete_address']);
+
+    //Card
+    Route::get('card_list', [UserProfileController::class, 'card_list']);
+    Route::post('add_card', [UserProfileController::class, 'add_card']);
+    Route::post('edit_card', [UserProfileController::class, 'edit_card']);
+    Route::get('delete_card/{id}', [UserProfileController::class, 'delete_card']);
+
     //Auth
     Route::get('logout', [UserLoginController::class, 'logout']);
     Route::get('logout_all_device', [UserLoginController::class, 'logout_all_device']);
@@ -79,6 +90,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     //Plans
     Route::get('plans', [UserPlanController::class, 'index']);
+    Route::post('buy_plan', [UserPlanController::class, 'buy_plan']);
 
 });
 

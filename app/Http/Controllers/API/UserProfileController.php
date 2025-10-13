@@ -9,7 +9,10 @@ use Laravel\Passport\Token;
 use Auth;
 use Hash;
 use Validator;
+use Helpers;
 use App\Models\User;
+use App\Models\UserAddress;
+use App\Models\UserCard;
 
 class UserProfileController extends BaseController
 {
@@ -231,4 +234,266 @@ class UserProfileController extends BaseController
         }
 
     }
+
+    public function add_address(Request $request)
+    {
+        $rules = [
+                    'address_name' => 'required',
+                    'address_line1' => 'required',
+                    'address_city' => 'required',
+                    'address_state' => 'required',
+                    'address_zipcode' => 'required',
+                ];
+
+        $messages = [
+                     'address_name.required' => 'Please Enter Name',
+                     'address_line1.required' => 'Please Enter Address Line 1',
+                     'address_city.required' => 'Please Enter City',
+                     'address_state.required' => 'Please Enter State',
+                     'address_zipcode.required' => 'Please Enter Zipcode',
+                    ];
+
+        $validator = Validator::make($request->all(),$rules,$messages);
+
+        if($validator->fails())
+        {
+            return $this->sendError($validator->errors(), ['error'=>'Validation Errors']);
+        }
+        else
+        {
+            $ins['user_address_user']        = Auth::user()->id;
+            $ins['user_address_name']        = $request->address_name;
+            $ins['user_address_line1']       = $request->address_line1;
+            $ins['user_address_line2']       = $request->address_line2;
+            $ins['user_address_city']        = $request->address_city;
+            $ins['user_address_state']       = $request->address_state;
+            $ins['user_address_zipcode']     = $request->address_zipcode;
+            $ins['user_address_added_by']    = Auth::user()->id;
+            $ins['user_address_updated_by']  = Auth::user()->id;
+            $ins['user_address_added_on']    = date('Y-m-d H:i:s');
+            $ins['user_address_updated_on']  = date('Y-m-d H:i:s');
+
+            $insert = UserAddress::create($ins);
+
+            return $this->sendResponse([], 'Address added Successfully.');
+        }
+    }
+
+    public function edit_address(Request $request)
+    {
+        $rules = [ 'address_id' => 'required',
+                    'address_name' => 'required',
+                    'address_line1' => 'required',
+                    'address_city' => 'required',
+                    'address_state' => 'required',
+                    'address_zipcode' => 'required',
+                ];
+
+        $messages = [
+                    'address_id.required' => 'Please Provide Address ID',
+                     'address_name.required' => 'Please Enter Name',
+                     'address_line1.required' => 'Please Enter Address Line 1',
+                     'address_city.required' => 'Please Enter City',
+                     'address_state.email' => 'Please Enter State',
+                     'address_zipcode.required' => 'Please Enter Zipcode',
+                    ];
+
+        $validator = Validator::make($request->all(),$rules,$messages);
+
+        if($validator->fails())
+        {
+            return $this->sendError($validator->errors(), ['error'=>'Validation Errors']);
+        }
+        else
+        {
+            $address = UserAddress::where(['user_address_user'=>Auth::user()->id,'user_address_id'=>$request->address_id])->count();
+            if($address > 0)
+            {
+                $upd['user_address_name']        = $request->address_name;
+                $upd['user_address_line1']       = $request->address_line1;
+                $upd['user_address_line2']       = $request->address_line2;
+                $upd['user_address_city']        = $request->address_city;
+                $upd['user_address_state']       = $request->address_state;
+                $upd['user_address_zipcode']     = $request->address_zipcode;
+                $upd['user_address_updated_by']  = Auth::user()->id;
+                $upd['user_address_updated_on']  = date('Y-m-d H:i:s');
+
+                $update = UserAddress::where('user_address_id',$request->address_id)->update($upd);
+
+                return $this->sendResponse([], 'Address updated Successfully.');
+            }
+            else
+            {
+                return $this->sendError([], ['error'=>'Address not Found.']);
+            }
+        }
+    }
+
+    public function delete_address(Request $request)
+    {
+        $rules = [ 'address_id' => 'required',
+                ];
+
+        $messages = [
+                    'address_id.required' => 'Please Provide Address id',
+                    ];
+
+        $validator = Validator::make($request->all(),$rules,$messages);
+
+        if($validator->fails())
+        {
+            return $this->sendError($validator->errors(), ['error'=>'Validation Errors']);
+        }
+        else
+        {
+            $address = UserAddress::where(['user_address_user'=>Auth::user()->id,'user_address_id'=>$request->address_id])->count();
+            if($address > 0)
+            {
+
+                $delete = UserAddress::where('user_address_id',$request->address_id)->delete();
+
+                return $this->sendResponse([], 'Address Deleted Successfully.');
+            }
+            else
+            {
+                return $this->sendError([], ['error'=>'Address not Found.']);
+            }
+        }
+    }
+
+    public function card_list(Request $request)
+    {
+        $cards = UserCard::where('user_card_user',Auth::user()->id)->get();
+        if($cards->count() > 0)
+        {
+            foreach($cards as $key=> $card)
+            {
+                $cad[$key]['card_id'] = $card->user_card_id;
+                $cad[$key]['card_name'] = $card->user_card_name;
+                $cad[$key]['card_number'] = Helpers::maskCardNumber($card->user_card_number);
+                $cad[$key]['card_cvc'] = $card->user_card_cvc;
+            }
+            $result['cards'] = $cad;
+            return $this->sendResponse($result,'Card List.');
+        }
+        else
+        {
+            return $this->sendError("No Card found", []);
+        }
+
+    }
+
+    public function add_card(Request $request)
+    {
+        $rules = [
+                    'card_name' => 'required',
+                    'card_number' => 'required|numeric',
+                    'card_expiry' => 'required',
+                    'card_cvc' => 'required|digits:3',
+                ];
+
+        $messages = [
+                     'card_name.required' => 'Please Enter Name',
+                     'card_number.required' => 'Please Enter Card Number',
+                     'card_expiry.required' => 'Please Enter Expiry',
+                     'card_expiry.regex' => 'The date must be in MM/DD format, like 12/25',
+                     'card_cvc.required' => 'Please Enter CVC',
+                    ];
+
+        $validator = Validator::make($request->all(),$rules,$messages);
+
+        if($validator->fails())
+        {
+            return $this->sendError($validator->errors(), ['error'=>'Validation Errors']);
+        }
+        else
+        {
+            $check = UserCard::where(['user_card_number'=>$request->card_number,'user_card_user'=>Auth::user()->id])->count();
+            //print_r($check);exit;
+            if($check == 0)
+            {
+                $ins['user_card_user']        = Auth::user()->id;
+                $ins['user_card_name']        = $request->card_name;
+                $ins['user_card_number']      = $request->card_number;
+                $ins['user_card_expiry']      = $request->card_expiry;
+                $ins['user_card_cvc']         = $request->card_cvc;
+                $ins['user_card_added_by']    = Auth::user()->id;
+                $ins['user_card_updated_by']  = Auth::user()->id;
+                $ins['user_card_added_on']    = date('Y-m-d H:i:s');
+                $ins['user_card_updated_on']  = date('Y-m-d H:i:s');
+
+                $insert = UserCard::create($ins);
+
+                return $this->sendResponse([], 'Card added Successfully.');
+            }
+            else
+            {
+                return $this->sendError([], ['error'=>'Card already in use']);
+            }
+        }
+    }
+
+    public function edit_card(Request $request)
+    {
+        $rules = [ 'card_id' => 'required',
+                    'card_name' => 'required',
+                    'card_number' => 'required',
+                    'card_expiry' => 'required',
+                    'card_cvc' => 'required',
+                ];
+
+        $messages = [
+                    'card_id.required' => 'Please Provide Card ID',
+                     'card_name.required' => 'Please Enter Name',
+                     'card_number.required' => 'Please Enter Card Number',
+                     'card_expiry.required' => 'Please Enter Expiry',
+                     'card_cvc.email' => 'Please Enter CVC',
+                    ];
+
+        $validator = Validator::make($request->all(),$rules,$messages);
+
+        if($validator->fails())
+        {
+            return $this->sendError($validator->errors(), ['error'=>'Validation Errors']);
+        }
+        else
+        {
+            $card = UserCard::where(['user_card_user'=>Auth::user()->id,'user_card_id'=>$request->card_id])->count();
+            if($card > 0)
+            {
+                $upd['user_card_name']        = $request->card_name;
+                $upd['user_card_number']      = $request->card_number;
+                $upd['user_card_expiry']      = $request->card_expiry;
+                $upd['user_card_cvc']         = $request->card_cvc;
+                $upd['user_card_updated_by']  = Auth::user()->id;
+                $upd['user_card_updated_on']  = date('Y-m-d H:i:s');
+
+                $update = UserCard::where('user_card_id',$request->card_id)->update($upd);
+
+                return $this->sendResponse([], 'Card updated Successfully.');
+            }
+            else
+            {
+                return $this->sendError([], ['error'=>'Card not Found.']);
+            }
+        }
+    }
+
+    public function delete_card(Request $request)
+    {
+        $cards = UserCard::where(['user_card_user'=>Auth::user()->id,'user_card_id'=>$request->segment(3)])->count();
+
+        if($cards > 0)
+        {
+            $delete = UserCard::where('user_card_id',$request->segment(3))->delete();
+
+            return $this->sendResponse([], 'Card Deleted Successfully.');
+        }
+        else
+        {
+            return $this->sendError([], ['error'=>'Card not Found.']);
+        }
+    }
+
+
 }

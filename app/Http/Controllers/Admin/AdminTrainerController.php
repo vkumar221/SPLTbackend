@@ -134,6 +134,30 @@ class AdminTrainerController extends Controller
 
             if($insert_id)
             {
+                $insVend['vendor_name']       = $request->trainer_name;
+                $insVend['vendor_type']       = $request->trainer_type;
+                $insVend['vendor_email']      = $request->trainer_email;
+                $insVend['vendor_phone']      = $request->trainer_phone;
+                $insVend['vendor_password']   = bcrypt($request->trainer_password);
+                $insVend['vendor_vpassword']   = base64_encode($request->trainer_password);
+                $insVend['vendor_status']     = 1;
+                $insVend['vendor_added_by']   = Auth::guard('admin')->user()->admin_id;
+                $insVend['vendor_added_on']   = date('Y-m-d H:i:s');
+                $insVend['vendor_updated_by'] = Auth::guard('admin')->user()->admin_id;
+                $insVend['vendor_updated_on'] = date('Y-m-d H:i:s');
+                if($request->hasFile('trainer_image'))
+                {
+                    $trainer_image = $request->trainer_image->store('assets/vendor/uploads/profile');
+
+                    $trainer_image = explode('/',$trainer_image);
+                    $trainer_image = end($trainer_image);
+                    $insVend['vendor_image'] = $trainer_image;
+                }
+
+                $insert_vid = Vendor::insertGetId($insVend);
+
+                $update = Trainer::where('trainer_id',$insert_id)->update(['trainer_vendor_id'=>$insert_vid]);
+
                 return redirect()->back()->with('success','Trainer Added Successfully');
             }
         }
@@ -208,6 +232,29 @@ class AdminTrainerController extends Controller
 
             if($update)
             {
+                $updVed['vendor_name']       = $request->trainer_name;
+                $updVed['vendor_type']       = $request->trainer_type;
+                $updVed['vendor_email']      = $request->trainer_email;
+                $updVed['vendor_phone']      = $request->trainer_phone;
+                $updVed['vendor_updated_by'] = Auth::guard('admin')->user()->admin_id;
+                $updVed['vendor_updated_on'] = date('Y-m-d H:i:s');
+                if($request->vendor_password != NULL)
+                {
+                    $updVed['vendor_password']   = bcrypt($request->trainer_password);
+                    $updVed['vendor_vpassword']   = base64encode($request->trainer_password);
+                }
+
+                if($request->hasFile('trainer_image'))
+                {
+                    $trainer_image = $request->trainer_image->store('assets/vendor/uploads/profile');
+
+                    $trainer_image = explode('/',$trainer_image);
+                    $trainer_image = end($trainer_image);
+                    $updVed['vendor_image'] = $trainer_image;
+                }
+
+                $update = Vendor::where('vendor_id',$request->segment(3))->update($updVed);
+
                 return redirect()->back()->with('success','Trainer Updated Successfully');
             }
         }

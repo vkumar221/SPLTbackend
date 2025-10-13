@@ -141,7 +141,6 @@
                 </div>
             </div>
         </div>
-        @include('trainer.client.client_modals')
     </div>
 </div>
 @endsection

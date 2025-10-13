@@ -13,6 +13,8 @@ use App\Models\Client;
 use App\Models\User;
 use App\Models\ClientMeasurement;
 use App\Models\Category;
+use App\Models\MuscleGroup;
+use App\Models\UserGoal;
 
 class TrainerClientController extends Controller
 {
@@ -278,9 +280,55 @@ class TrainerClientController extends Controller
         return view('trainer.client.client_settings',$data);
     }
 
+    public function client_update(Request $request)
+    {
+        if($request->has('submit'))
+        {
+            $rules = ['fname'=>'required',
+                       'lname' => 'required',
+                       'email' => 'required',
+                       'phone' => 'required',
+                       'height'=>'required',
+                       'weight' =>'required',];
+
+            $messages = ['fname.required'=>'Please Enter First Name',
+                        'lname.required'=>'Please Enter Last Name',
+                        'email.required'=>'Please enter Email',
+                        'phone.required'=>'Please enter Phone',
+                        'height.required'=>'Please enter Height',
+                        'weight.required'=>'Please enter Weight',];
+
+            $validator = Validator::make($request->all(),$rules,$messages);
+
+            if($validator->fails())
+            {
+                return redirect()->back()->withErrors($validator->errors())->withInput();
+            }
+
+            $upd['fname']             = $request->fname;
+            $upd['lname']             = $request->lname;
+            $upd['email']             = $request->email;
+            $upd['phone']             = $request->phone;
+            $upd['height']            = $request->height;
+            $upd['weight']            = $request->weight;
+            $upd['updated_by']        = Auth::guard('admin')->user()->admin_id;
+            $upd['updated_on']        = date('Y-m-d H:i:s');
+
+            $update = User::where('id',$request->segment(3))->update($upd);
+
+            if($update)
+            {
+                return redirect()->back()->with('success','Settings Updated Successfully');
+            }
+        }
+    }
+
     public function client_goals(Request $request)
     {
         $data['user'] = User::where('id',$request->segment(3))->first();
+        $data['goal_types'] = DB::table('goal_types')->where('goal_type_status',1)->get();
+        $data['muscle_groups'] = MuscleGroup::where('muscle_group_status',1)->get();
+        $data['goals'] = UserGoal::where('user_goal_user',$request->segment(3))->get();
 
         if(!isset($data['user']))
         {
@@ -290,6 +338,60 @@ class TrainerClientController extends Controller
         $data['set'] = 'clients';
         $data['sub_set'] = 'client_goals';
         return view('trainer.client.client_goals',$data);
+    }
+
+    public function add_client_goal(Request $request)
+    {
+        if($request->has('submit'))
+        {
+            $rules = ['user_goal_name'=>'required',
+                       'user_goal_type' => 'required',
+                       'user_goal_duration' => 'required',
+                       'user_goal_weight' => 'required',
+                       'user_goal_weight_target'=>'required',
+                       'user_goal_fat' =>'required',
+                       'user_goal_fat_target' => 'required',];
+
+            $messages = ['user_goal_name.required'=>'Please Enter Goal Name',
+                        'user_goal_type.required'=>'Please Enter Goal Type',
+                        'user_goal_duration.required'=>'Please enter Duration',
+                        'user_goal_weight.required'=>'Please enter Weight',
+                        'user_goal_weight_target.required'=>'Please enter Weight Target',
+                        'user_goal_fat.required'=>'Please enter Fat',
+                        'user_goal_fat_target.required'=>'Please enter Fat Target',];
+
+            $validator = Validator::make($request->all(),$rules,$messages);
+
+            if($validator->fails())
+            {
+                return redirect()->back()->withErrors($validator->errors())->withInput();
+            }
+
+            $ins['user_goal_name']             = $request->user_goal_name;
+            $ins['user_goal_type']             = $request->user_goal_type;
+            $ins['user_goal_duration']         = $request->user_goal_duration;
+            $ins['user_goal_weight']           = $request->user_goal_weight;
+            $ins['user_goal_weight_target']    = $request->user_goal_weight_target;
+            $ins['user_goal_user']             = $request->request->segement(3);
+            $ins['user_goal_fat']              = $request->user_goal_fat;
+            $ins['user_goal_fat_target']       = $request->user_goal_fat_target;
+            $ins['user_goal_muscle']           = json_encode($request->user_goal_muscle);
+            $ins['user_goal_muscle_current']   = json_encode($request->user_goal_muscle_current);
+            $ins['user_goal_muscle_target']    = json_encode($request->user_goal_muscle_target);
+            $ins['user_goal_status']           = 1;
+            $ins['user_goal_role']             = 3;
+            $ins['user_goal_added_by']         = Auth::guard('admin')->user()->admin_id;
+            $ins['user_goal_role']             = date('Y-m-d H:i:s');
+            $ins['user_goal_updated_by']       = Auth::guard('admin')->user()->admin_id;
+            $ins['user_goal_updated_on']       = date('Y-m-d H:i:s');
+
+            $insert_id = UserGoal::insertGetId($ins);
+
+            if($insert_id)
+            {
+                return redirect()->back()->with('success','Goal Added Successfully');
+            }
+        }
     }
 
     public function edit_client(Request $request)

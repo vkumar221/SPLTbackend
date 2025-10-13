@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('trainers', function (Blueprint $table) {
             $table->bigIncrements('trainer_id');
+            $table->integer('trainer_vendor_id')->default(0);
             $table->string('trainer_name')->nullable();
             $table->string('trainer_email')->unique();
             $table->string('trainer_password')->nullable();
@@ -21,7 +22,6 @@ return new class extends Migration
             $table->integer('trainer_type')->default(1);
             $table->integer('trainer_plan')->default(1);
             $table->text('trainer_image')->nullable();
-            $table->text('trainer_cover')->nullable();
             $table->string('trainer_facebook')->nullable();
             $table->string('trainer_instagram')->nullable();
             $table->string('trainer_tiktok')->nullable();

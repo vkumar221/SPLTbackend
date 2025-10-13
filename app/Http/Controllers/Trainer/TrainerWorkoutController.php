@@ -18,11 +18,12 @@ class TrainerWorkoutController extends Controller
 {
     public function index(Request $request)
     {
-        $data['set'] = 'workout_plans';
+        $data['set'] = 'workouts';
         $data['workouts'] = Workout::getDetails(['workout_trash'=>0]);
         $data['exercise_types'] = ExerciseType::where('exercise_type_status',1)->get();
         $data['muscle_groups'] = MuscleGroup::where('muscle_group_status',1)->get();
         $data['workout_categories'] = WorkoutCategory::where('workout_category_status',1)->get();
+        $data['workout_detail'] = Workout::getDetails(['workout_trash'=>0])->first();
         $data['equipments'] = Equipment::where('equipment_status',1)->get();
         return view('trainer.workouts.workouts',$data);
     }
@@ -93,7 +94,7 @@ class TrainerWorkoutController extends Controller
 
     public function add_workout(Request $request)
     {
-        $data['set'] = 'workout_plans';
+        $data['set'] = 'workouts';
         $data['exercise_types'] = ExerciseType::where('exercise_type_status',1)->get();
         $data['muscle_groups'] = MuscleGroup::where('muscle_group_status',1)->get();
         $data['workout_categories'] = WorkoutCategory::where('workout_category_status',1)->get();
@@ -139,7 +140,7 @@ class TrainerWorkoutController extends Controller
             $ins['workout_muscle_group']       = $request->workout_muscle_group;
             $ins['workout_other_muscle']       = $request->workout_other_muscle;
             $ins['workout_category']           = $request->workout_category;
-            $ins['workout_instruction']        = $request->workout_instruction;
+            $ins['workout_instruction']        = json_encode($request->workout_instruction);
             $ins['workout_vimeo']              = $request->workout_vimeo;
             $ins['workout_youtube']            = $request->workout_youtube;
             $ins['workout_status']             = 1;
@@ -224,7 +225,7 @@ class TrainerWorkoutController extends Controller
             $upd['workout_muscle_group']       = $request->workout_muscle_group;
             $upd['workout_other_muscle']       = $request->workout_other_muscle;
             $upd['workout_category']           = $request->workout_category;
-            $upd['workout_instruction']        = $request->workout_instruction;
+            $upd['workout_instruction']        = json_encode($request->workout_instruction);
             $upd['workout_vimeo']              = $request->workout_vimeo;
             $upd['workout_youtube']            = $request->workout_youtube;
             $upd['workout_updated_by']         = Auth::guard('trainer')->user()->trainer_id;
@@ -270,6 +271,47 @@ class TrainerWorkoutController extends Controller
         {
             return redirect()->back()->with('success','Status Changed Successfully');
         }
+    }
+
+    public function view_exercise(Request $request)
+    {
+        $workout_id = $request->exercise;
+
+        $data['workout_detail'] = Workout::getDetails(['workout_id'=>$workout_id])->first();
+
+        return view('trainer.workouts.view_workout',$data);
+
+    }
+
+    public function filter_workout(Request $request)
+    {
+        if($request->exercises != '')
+        {
+            $exercises = explode(',',$request->exercises);
+        }
+        else
+        {
+            $exercises = '';
+        }
+
+        $where['workout_status'] = 1;
+        if($request->exercise_type != '')
+        {
+            $where['workout_type'] = $request->exercise_type;
+        }
+        if($request->equipment != '')
+        {
+            $where['workout_equipment'] = $request->equipment;
+        }
+        if($request->muscle_group != '')
+        {
+            $where['workout_muscle_group'] = $request->muscle_group;
+        }
+
+        $data['excercises'] = Workout::getDetailFilter($where,$exercises);
+
+        return view('trainer.workouts.workout_list',$data);
+
     }
 
 }

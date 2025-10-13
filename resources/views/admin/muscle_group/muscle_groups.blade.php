@@ -157,7 +157,7 @@
     var csrf = "{{ csrf_token() }}";
     var url = "{{asset(config('constants.admin_path').'uploads/muscle_group/')}}";
       $.ajax({
-            url: "{{ route('admin.exercise-type-details') }}",
+            url: "{{ route('admin.muscle-group-details') }}",
             type: "get",
             dataType:"json",
             data: '_token='+csrf+'&muscle_group_id='+id,

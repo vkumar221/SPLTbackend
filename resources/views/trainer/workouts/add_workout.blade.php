@@ -144,8 +144,13 @@
                     <div class="col-lg-12 col-md-12 col-12">
                         <div class="form-group">
                         <label for="workout_instruction">Exercise Instructions</label>
-                        <textarea cols="5" rows="5" class="form-control" name="workout_instruction" id="workout_instruction" placeholder="Type some exercise instructions here... e.g. keep your back straight">{{old('workout_instruction')}}</textarea>
-                        </div>
+                        <span id="new_instr">
+                            <textarea rows="3" class="form-control mb-2" name="workout_instruction[1]" id="workout_instruction_1" placeholder="Type some exercise instructions here... e.g. keep your back straight">{{old('workout_instruction')}}</textarea>
+                        </span>    
+                    </div>
+                    </div>
+                    <div class="action-container text-end mb-4">
+                        <a href="javascript:void(0)" class="btn-link" onclick="add_new();"><i class="ti ti-plus f-16"></i>Add More</a>
                     </div>
                     <div class="col-lg-12 col-md-12 col-12">
                             <div class="form-group">
@@ -192,40 +197,49 @@
  }
 </script>
 <script>
-		  document.querySelectorAll('.custom-file-input').forEach(function (input) {
-			input.addEventListener('change', function () {
-			  const wrapper = this.closest('.custom-file-wrapper');
-			  const fileNameSpan = wrapper.querySelector('.file-name');
-			  fileNameSpan.textContent = this.files[0]?.name || '';
-			});
-		  });
-        </script>
-        <script>
-			const fileInput = document.getElementById('fileInput');
-			const previewContainer = document.getElementById('previewContainer');
-			const uploadText = document.getElementById('uploadText');
+    document.querySelectorAll('.custom-file-input').forEach(function (input) {
+    input.addEventListener('change', function () {
+        const wrapper = this.closest('.custom-file-wrapper');
+        const fileNameSpan = wrapper.querySelector('.file-name');
+        fileNameSpan.textContent = this.files[0]?.name || '';
+    });
+    });
+</script>
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const previewContainer = document.getElementById('previewContainer');
+    const uploadText = document.getElementById('uploadText');
 
-			fileInput.addEventListener('change', () => {
-			  const files = fileInput.files;
+    fileInput.addEventListener('change', () => {
+        const files = fileInput.files;
 
-			  // Clear previous previews
-			  previewContainer.innerHTML = '';
+        // Clear previous previews
+        previewContainer.innerHTML = '';
 
-			  if (files.length > 0) {
-				uploadText.style.display = 'none';
-			  }
+        if (files.length > 0) {
+        uploadText.style.display = 'none';
+        }
 
-			  Array.from(files).forEach(file => {
-				if (file.type.startsWith('image/')) {
-				  const reader = new FileReader();
-				  reader.onload = function (e) {
-					const img = document.createElement('img');
-					img.src = e.target.result;
-					previewContainer.appendChild(img);
-				  };
-				  reader.readAsDataURL(file);
-				}
-			  });
-			});
-	    </script>
+        Array.from(files).forEach(file => {
+        if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            previewContainer.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        }
+        });
+    });
+</script>
+<script>
+var i = 2;
+function add_new()
+{
+    
+    $('#new_instr').append('<textarea rows="3" class="form-control mb-2" name="workout_instruction['+i+']" id="workout_instruction_'+i+'" placeholder="Type some exercise instructions here... e.g. keep your back straight"></textarea>')
+
+}
+</script>
 @endsection

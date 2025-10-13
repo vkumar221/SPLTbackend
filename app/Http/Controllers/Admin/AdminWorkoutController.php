@@ -136,7 +136,7 @@ class AdminWorkoutController extends Controller
             $ins['workout_muscle_group']       = $request->workout_muscle_group;
             $ins['workout_other_muscle']       = $request->workout_other_muscle;
             $ins['workout_category']           = $request->workout_category;
-            $ins['workout_instruction']        = $request->workout_instruction;
+            $ins['workout_instruction']        = json_encode($request->workout_instruction);
             $ins['workout_vimeo']              = $request->workout_vimeo;
             $ins['workout_youtube']            = $request->workout_youtube;
             $ins['workout_status']             = 1;
@@ -220,7 +220,7 @@ class AdminWorkoutController extends Controller
             $upd['workout_muscle_group']       = $request->workout_muscle_group;
             $upd['workout_other_muscle']       = $request->workout_other_muscle;
             $upd['workout_category']           = $request->workout_category;
-            $upd['workout_instruction']        = $request->workout_instruction;
+            $upd['workout_instruction']        = json_encode($request->workout_instruction);
             $upd['workout_vimeo']              = $request->workout_vimeo;
             $upd['workout_youtube']            = $request->workout_youtube;
             $upd['workout_updated_by']         = Auth::guard('admin')->user()->admin_id;

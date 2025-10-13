@@ -9,6 +9,7 @@ use Auth;
 use Mail;
 use Log;
 use Exception;
+use DateTime;
 use App\Models\Admin;
 use App\Models\Product;
 use App\Models\Payment;
@@ -44,6 +45,18 @@ class Helpers
 
         return $words;
     }
+
+    public static function maskCardNumber($cardNumber)
+    {
+        $cleaned = preg_replace('/\D/', '', $cardNumber);
+
+        $lastFour = substr($cleaned, -4);
+
+        $masked = str_repeat('X', strlen($cleaned) - 4) . $lastFour;
+
+        return trim(chunk_split($masked, 4, ' '));
+    }
+
 
     public static function numberToWords($number) {
         $words = array(
@@ -111,20 +124,36 @@ class Helpers
         return $ip;
     }
 
-    public static function formatCurrency($amount) {
-    if ($amount >= 10000000) {
-        return  round($amount / 10000000, 2) . ' Cr';
-    } elseif ($amount >= 100000) {
-        return round($amount / 100000, 2) . ' L';
-    } elseif ($amount >= 1000) {
-        return round($amount / 1000, 2) . ' K';
-    } else {
-        return number_format($amount);
+    public static function formatCurrency($amount)
+    {
+        if ($amount >= 10000000) {
+            return  round($amount / 10000000, 2) . ' Cr';
+        } elseif ($amount >= 100000) {
+            return round($amount / 100000, 2) . ' L';
+        } elseif ($amount >= 1000) {
+            return round($amount / 1000, 2) . ' K';
+        } else {
+            return number_format($amount);
+        }
     }
-}
 
+    public static function getPlanExpiryDate($planType)
+    {
+        $activeDate = date('Y-m-d',strtotime('now'));
 
+        $date = DateTime::createFromFormat('Y-m-d', $activeDate);
 
+        if($planType == 1)
+        {
+            $date->modify('+1 month');
+        }
+        else
+        {
+            $date->modify('+1 year');
+        }
 
+        return $date->format('Y-m-d');
+
+    }
 
 }

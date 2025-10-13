@@ -33,14 +33,14 @@
                         <span class="pc-mtext" data-i18n="Workout Plans">Workout Plans</span>
                     </a>
                 </li>
-                {{-- <li class="pc-item">
+                <li class="pc-item">
                     <a href="{{route('trainer.workouts')}}" class="pc-link @if(isset($set) && $set == 'workouts') active @endif">
                         <span class="pc-micon">
                             <img src="{{ asset(config('constants.admin_path').'images/icons/exercise.svg')}}" alt="exercise">
                         </span>
                         <span class="pc-mtext" data-i18n="Exercise Library">Exercise Library</span>
                     </a>
-                </li> --}}
+                </li>
                 <li class="pc-item">
                     <a href="{{route('trainer.certificates')}}" class="pc-link @if(isset($set) && $set == 'certificates') active @endif">
                         <span class="pc-micon">
@@ -56,6 +56,38 @@
                             <img class="icon-default" src="{{ asset(config('constants.admin_path').'images/icons/videos.svg')}}" alt="videos">
                         </span>
                         <span class="pc-mtext" data-i18n="Videos Management">Videos Management</span>
+                    </a>
+                </li>
+                <li class="pc-item pc-hasmenu @if(isset($set) && $set == 'attributes' || isset($set) && $set == 'products') pc-trigger @endif">
+                    <a href="javascript:void(0)" class="pc-link @if(isset($set) && $set == 'attributes') active @endif">
+                        <span class="pc-micon">
+                            <img class="icon-active" src="{{ asset(config('constants.admin_path').'images/icons/product-white.svg') }}" alt="product.svg">
+                            <img class="icon-default" src="{{ asset(config('constants.admin_path').'images/icons/product-blue.png') }}" alt="product.png">
+                        </span>
+                        <span class="pc-mtext" data-i18n="Product Management">Product Management</span>
+                        <span class="pc-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
+                    </a>
+                    <ul class="pc-submenu">
+                        <li class="pc-item @if(isset($set) && $set == 'products') active @endif"><a class="pc-link" href="{{route('trainer.products')}}" data-i18n="ProductList">Product List</a></li>
+                        {{-- <li class="pc-item"><a class="pc-link" href="add-downloadable-files.html" data-i18n="DownloadableFiles">Downloadable Files</a></li> --}}
+                    </ul>
+                </li>
+                <li class="pc-item">
+                    <a href="{{route('trainer.inventory')}}" class="pc-link @if(isset($set) && $set == 'inventory') active @endif">
+                        <span class="pc-micon">
+                            <img class="icon-active" src="{{ asset(config('constants.admin_path').'images/icons/stock-white.svg') }}" alt="stock.svg">
+                            <img class="icon-default" src="{{ asset(config('constants.admin_path').'images/icons/stock-blue.svg') }}" alt="stock.svg">
+                        </span>
+                        <span class="pc-mtext" data-i18n="Stock & Inventory">Stock & Inventory</span>
+                    </a>
+                </li>
+                <li class="pc-item">
+                    <a href="{{url('trainer/orders')}}" class="pc-link @if(isset($set) && $set == 'orders') active @endif">
+                        <span class="pc-micon">
+                            <img class="icon-active" src="{{ asset(config('constants.admin_path').'images/icons/order-white.svg') }}" alt="order.svg">
+                            <img class="icon-default" src="{{ asset(config('constants.admin_path').'images/icons/order-blue.svg') }}" alt="order.svg">
+                        </span>
+                        <span class="pc-mtext" data-i18n="Order Management">Order Management</span>
                     </a>
                 </li>
                 {{--

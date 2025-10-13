@@ -144,7 +144,9 @@
                     <div class="col-lg-12 col-md-12 col-12">
                         <div class="form-group">
                         <label for="workout_instruction">Exercise Instructions</label>
-                        <textarea cols="5" rows="5" class="form-control" name="workout_instruction" id="workout_instruction" placeholder="Type some exercise instructions here... e.g. keep your back straight">{{old('workout_instruction')}}</textarea>
+                        <span id="new_instr">
+                            <textarea rows="3" class="form-control mb-2" name="workout_instruction[1]" id="workout_instruction_1" placeholder="Type some exercise instructions here... e.g. keep your back straight">{{old('workout_instruction')}}</textarea>
+                        </span> 
                         </div>
                     </div>
                     <div class="col-lg-12 col-md-12 col-12">
@@ -228,4 +230,13 @@
 			  });
 			});
 	    </script>
+<script>
+var i = 2;
+function add_new()
+{
+    
+    $('#new_instr').append('<textarea rows="3" class="form-control mb-2" name="workout_instruction['+i+']" id="workout_instruction_'+i+'" placeholder="Type some exercise instructions here... e.g. keep your back straight"></textarea>')
+
+}
+</script>
 @endsection

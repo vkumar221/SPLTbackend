@@ -131,8 +131,24 @@
                     <div class="col-lg-12 col-md-12 col-12">
                         <div class="form-group">
                         <label for="workout_instruction">Exercise Instructions</label>
-                        <textarea cols="5" rows="5" class="form-control" name="workout_instruction" id="workout_instruction" placeholder="Type some exercise instructions here... e.g. keep your back straight">{{$workout->workout_instruction}}</textarea>
+                        @if($workout->workout_instruction != NULL)
+                        @php
+                            $instructions = json_decode($workout->workout_instruction,true);
+                        @endphp
+                        <span id="new_instr">
+                        @foreach($instructions as $key => $instruction)
+                        <textarea cols="5" rows="3" class="form-control mb-2" name="workout_instruction[{{$key}}]" id="workout_instruction_{{$key}}" placeholder="Type some exercise instructions here... e.g. keep your back straight">{{$instruction}}</textarea>
+                        @endforeach
+                        </span>
+                        @else
+                        <span id="new_instr">
+                            <textarea rows="3" class="form-control mb-2" name="workout_instruction[1]" id="workout_instruction_1" placeholder="Type some exercise instructions here... e.g. keep your back straight">{{old('workout_instruction')}}</textarea>
+                        </span>  
+                        @endif
                         </div>
+                    </div>
+                    <div class="action-container text-end mb-4">
+                        <a href="javascript:void(0)" class="btn-link" onclick="add_new();"><i class="ti ti-plus f-16"></i>Add More</a>
                     </div>
                     <div class="col-lg-12 col-md-12 col-12">
                             <div class="form-group">
@@ -177,5 +193,18 @@
     workout_image_src.src = URL.createObjectURL(file)
   }
  }
+</script>
+<script>
+@if($workout->workout_instruction == NULL)
+var i = 2;
+@else
+var i = "{{$key + 1}}";
+@endif
+function add_new()
+{
+    
+    $('#new_instr').append('<textarea rows="3" class="form-control mb-2" name="workout_instruction['+i+']" id="workout_instruction_'+i+'" placeholder="Type some exercise instructions here... e.g. keep your back straight"></textarea>')
+
+}
 </script>
 @endsection
