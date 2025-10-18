@@ -23,6 +23,7 @@ class TrainerCertificateController extends Controller
         if($request->ajax())
         {
             $where['certificate_trash'] = 0;
+            $where['certificate_added_by'] = Auth::user()->id;
 
             $data = TrainerCertificate::getDetails($where);
 
@@ -103,9 +104,9 @@ class TrainerCertificateController extends Controller
 
             $ins['certificate_title']               = $request->certificate_title;
             $ins['certificate_status']             = 1;
-            $ins['certificate_added_by']           = Auth::guard('trainer')->user()->trainer_id;
+            $ins['certificate_added_by']           = Auth::user()->id;
             $ins['certificate_added_on']           = date('Y-m-d H:i:s');
-            $ins['certificate_updated_by']         = Auth::guard('trainer')->user()->trainer_id;
+            $ins['certificate_updated_by']         = Auth::user()->id;
             $ins['certificate_updated_on']         = date('Y-m-d H:i:s');
 
             if($request->hasFile('certificate_image'))
@@ -166,7 +167,7 @@ class TrainerCertificateController extends Controller
             }
 
             $upd['certificate_title']               = $request->certificate_title;
-            $upd['certificate_updated_by']         = Auth::guard('trainer')->user()->trainer_id;
+            $upd['certificate_updated_by']         = Auth::user()->id;
             $upd['certificate_updated_on']         = date('Y-m-d H:i:s');
 
             if($request->hasFile('certificate_image'))

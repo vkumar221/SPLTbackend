@@ -17,7 +17,7 @@ class CheckTrainerLogin
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::guard('trainer')->check())
+        if(Auth::check())
         {
             return redirect('trainer/dashboard');
         }

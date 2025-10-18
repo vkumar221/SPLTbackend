@@ -19,7 +19,7 @@ class TrainerDashboardController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::guard('trainer')->logout();
+        Auth::logout();
 
         return redirect()->route('trainer.login');
     }

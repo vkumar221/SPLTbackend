@@ -13,6 +13,7 @@ use Helpers;
 use App\Models\User;
 use App\Models\UserAddress;
 use App\Models\UserCard;
+use App\Models\Following;
 
 class UserProfileController extends BaseController
 {
@@ -80,6 +81,11 @@ class UserProfileController extends BaseController
             $upd['lname']      = $request->lname;
             $upd['email']      = $request->email;
             $upd['uname']      = $request->uname;
+            $upd['gender']     = $request->gender;
+            $upd['age']        = $request->age;
+            $upd['dob']        = $request->dob;
+            $upd['weight']     = $request->weight;
+            $upd['height']     = $request->height;
             $upd['updated_at'] = date('Y-m-d H:i:s');
 
             if($request->hasFile('image'))
@@ -95,6 +101,128 @@ class UserProfileController extends BaseController
 
             return $this->sendResponse([], 'User Details updated Successfully.');
         }
+    }
+
+    public function trainer_profile(Request $request)
+    {
+        $result['fname'] = Auth::user()->fname;
+        $result['lname'] = Auth::user()->lname;
+        $result['email '] = Auth::user()->email;
+        $result['uname'] = Auth::user()->uname;
+        $result['gender'] = Auth::user()->gender;
+        $result['image'] = (Auth::user()->image != NULL) ? url(asset(config('constants.user_path').'uploads/profile/'.Auth::user()->image)) : url(asset(config('constants.user_path').'uploads/no-image.png'));
+        $result['role'] = (Auth::user()->role == 1) ? 'Client' : 'Trainer';
+        $result['banner'] = (Auth::user()->cover_image != NULL) ? url(asset(config('constants.user_path').'uploads/profile/'.Auth::user()->cover_image)) : url(asset(config('constants.user_path').'uploads/no-image.png'));
+        $result['bio'] = Auth::user()->bio;
+        $result['following'] = Following::getDetails(['following_added_by'=>Auth::user()->id,'following_trash'=>0])->count();
+        $result['followers'] = Following::getDetails(['following_follower'=>Auth::user()->id,'following_trash'=>0])->count();
+
+        return $this->sendResponse($result, 'User Profile Informations fetched successfully.');
+
+    }
+
+    public function trainer_update_profile(Request $request)
+    {
+        $rules = [
+                    'fname' => 'required',
+                    'lname' => 'required',
+                    'email' => 'required|email',
+                    'uname' => 'required',
+                    'image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100,max_width=1000,max_height=1000',
+                    'banner' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100,max_width=1000,max_height=1000',
+                    'gender' => 'required',
+                ];
+
+        $messages = [
+                     'fname.required' => 'Please Enter First Name',
+                     'lname.required' => 'Please Enter Last Name',
+                     'email.required' => 'Please Enter Email Address',
+                     'email.email' => 'Please Enter Valid Email Address',
+                     'uname.required' => 'Please Enter username',
+                     'gender.required' => 'Please Enter Gender',
+                    ];
+
+        $validator = Validator::make($request->all(),$rules,$messages);
+
+        if($validator->fails())
+        {
+            return $this->sendError($validator->errors(), ['error'=>'Validation Errors']);
+        }
+        else
+        {
+            $where_email['email'] = $request->email;
+            $check_email = User::where($where_email)->where('id','!=',Auth::user()->id)->count();
+
+            if($check_email > 0)
+            {
+                return $this->sendError([], ['error'=>'Email ID already in use']);
+            }
+
+            $where_uname['uname'] = $request->uname;
+            $check_uname = User::where($where_uname)->where('id','!=',Auth::user()->id)->count();
+
+            if($check_email > 0)
+            {
+                return $this->sendError([], ['error'=>'Email ID already in use']);
+            }
+
+            if($check_uname > 0)
+            {
+                return $this->sendError([], ['error'=>'Username already in use']);
+            }
+
+            $upd['fname']      = $request->fname;
+            $upd['lname']      = $request->lname;
+            $upd['email']      = $request->email;
+            $upd['uname']      = $request->uname;
+            $upd['gender']     = $request->gender;
+            $upd['age']        = $request->age;
+            $upd['dob']        = $request->dob;
+            $upd['weight']     = $request->weight;
+            $upd['height']     = $request->height;
+            $upd['bio']        = $request->bio;
+            $upd['instagram']  = $request->instagram;
+            $upd['twitter']    = $request->twitter;
+            $upd['facebook']   = $request->facebook;
+            $upd['youtube']    = $request->youtube;
+            $upd['tiktok']     = $request->tiktok;
+            $upd['updated_at'] = date('Y-m-d H:i:s');
+
+            if($request->hasFile('image'))
+            {
+                $image = $request->image->store('assets/user/uploads/profile');
+
+                $image = explode('/',$image);
+                $image = end($image);
+                $upd['image'] = $image;
+            }
+
+            if($request->hasFile('banner'))
+            {
+                $image = $request->banner->store('assets/user/uploads/profile');
+
+                $banner = explode('/',$image);
+                $banner = end($banner);
+                $upd['cover_image'] = $banner;
+            }
+
+            $user = User::where('id',Auth::user()->id)->update($upd);
+
+            return $this->sendResponse([], 'User Details updated Successfully.');
+        }
+    }
+
+    public function social_media(Request $request)
+    {
+        $result['email '] = Auth::user()->email;
+        $result['facebook'] = Auth::user()->facebook;
+        $result['instagram'] = Auth::user()->instagram;
+        $result['twitter'] = Auth::user()->twitter;
+        $result['tiktok'] = Auth::user()->tiktok;
+        $result['youtube'] = Auth::user()->youtube;
+
+        return $this->sendResponse($result, 'User Social Media fetched successfully.');
+
     }
 
     public function change_mobile(Request $request)

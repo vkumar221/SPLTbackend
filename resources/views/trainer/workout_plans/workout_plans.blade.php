@@ -74,7 +74,7 @@
                         <a href="javascript:void(0)" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{ asset(config('constants.admin_path').'images/icons/toggle.svg')}}" alt="toggle"></a>
                         <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
                             {{-- <a href="#!" class="dropdown-item">Copy Program to Clients</a> --}}
-                            @if($plan->workout_plan_added_role == 3 && $plan->workout_plan_added_by == Auth::guard('trainer')->user()->trainer_id)
+                            @if($plan->workout_plan_added_role == 2 && $plan->workout_plan_added_by == Auth::user()->id)
                             <a href="{{url('trainer/edit_workout_plan/'.$plan->workout_plan_id )}}" class="dropdown-item text-dark">Edit Program</a>
                             @endif
                             {{-- <a href="#!" class="dropdown-item">Duplicate Program</a>

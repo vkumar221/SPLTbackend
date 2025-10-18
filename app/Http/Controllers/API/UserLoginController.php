@@ -38,8 +38,7 @@ class UserLoginController extends BaseController
             {
                 $user = Auth::user();
                 $result['token'] = $user->createToken('Splt')-> accessToken;
-                $result['name'] = $user->name;
-
+                $result['name'] = ($user->lname != NULL) ? $user->fname.' '.$user->lname : $user->fname;
                 return $this->sendResponse($result, 'User login successfully.');
             }
             else

@@ -13,6 +13,11 @@ use App\Http\Controllers\API\UserProfileController;
 use App\Http\Controllers\API\UserCartController;
 use App\Http\Controllers\API\UserCheckoutController;
 use App\Http\Controllers\API\UserOrderController;
+use App\Http\Controllers\API\TrainerLoginController;
+use App\Http\Controllers\API\TrainerRegisterController;
+use App\Http\Controllers\API\UserFollowController;
+use App\Http\Controllers\API\UserBlockedController;
+use App\Http\Controllers\API\UserAppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +41,12 @@ Route::get('unauthenticated',function(){
 
     //Register
     Route::post('register', [UserRegisterController::class, 'index']);
+    Route::post('validate_uname', [UserRegisterController::class, 'validate_uname']);
+
+    //Auth
+    Route::post('trainer_login', [TrainerLoginController::class, 'index']);
+    Route::post('trainer_forgot_password', [TrainerLoginController::class, 'forgot_password']);
+    Route::post('trainer_reset_password', [TrainerLoginController::class, 'reset_password']);
 
 Route::group(['middleware' => ['auth:api']], function () {
 
@@ -44,6 +55,27 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('change_mobile', [UserProfileController::class, 'change_mobile']);
     Route::post('verify_new_mobile', [UserProfileController::class, 'verify_new_mobile']);
     Route::post('change_password', [UserProfileController::class, 'change_password']);
+
+    //Trainer
+    Route::get('trainer_profile', [UserProfileController::class, 'trainer_profile']);
+    Route::post('trainer_update_profile', [UserProfileController::class, 'trainer_update_profile']);
+    Route::get('social_media', [UserProfileController::class, 'social_media']);
+
+    //Following
+    Route::post('follow', [UserFollowController::class, 'index']);
+    Route::post('unfollow', [UserFollowController::class, 'unfollow']);
+    Route::get('follwing_list', [UserFollowController::class, 'follwing_list']);
+    Route::get('follwer_list', [UserFollowController::class, 'follwer_list']);
+
+    //Block
+    Route::post('block', [UserBlockedController::class, 'index']);
+    Route::post('unblock', [UserBlockedController::class, 'unblock']);
+    Route::get('blocked_list', [UserBlockedController::class, 'blocked_list']);
+
+    //Appointment
+    Route::post('book_appointment', [UserAppointmentController::class, 'index']);
+    Route::get('appointment_list', [UserAppointmentController::class, 'appointment_list']);
+    Route::post('appointment_cancel', [UserAppointmentController::class, 'appointment_cancel']);
 
     //Address
     Route::post('add_address', [UserProfileController::class, 'add_address']);

@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use Auth;
 use Validator;
 use DataTables;
-use App\Models\Trainer;
+use App\Models\User;
 use App\Models\Category;
 
 class AdminTrainerController extends Controller
@@ -23,25 +23,25 @@ class AdminTrainerController extends Controller
     {
         if($request->ajax())
         {
-            $data = Trainer::orderby('trainer_id','asc')->get();
+            $data = User::where('user_role',3)->orderby('user_id','asc')->get();
 
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('added_on', function($row){
 
-                        $added_on = date('d-M-y',strtotime($row->trainer_added_on));
+                        $added_on = date('d-M-y',strtotime($row->added_on));
 
                         return $added_on;
                     })
                     ->addColumn('image', function($row){
 
-                        $image = '<img src="'.url('assets/admin/uploads/trainer/'.$row->trainer_image).'" alt="..." class="avatar-img rounded" width="50">';
+                        $image = '<img src="'.url('assets/user/uploads/profile/'.$row->image).'" alt="..." class="avatar-img rounded" width="50">';
 
                         return $image;
                     })
                     ->addColumn('status', function($row)
                     {
-                        if($row->trainer_status == 1)
+                        if($row->status == 1)
                         {
                             $status = '<span class="status-label text-white">Active</span>';
                         }
@@ -55,15 +55,15 @@ class AdminTrainerController extends Controller
                     })
                     ->addColumn('action', function($row){
 
-                        $btn = '<a href="'.url('admin/edit_trainer/'.$row->trainer_id).'" class="btn btn-icon btn-sm btn-info" title="Edit"><i class="fa fa-edit"></i></a> ';
+                        $btn = '<a href="'.url('admin/edit_trainer/'.$row->id).'" class="btn btn-icon btn-sm btn-info" title="Edit"><i class="fa fa-edit"></i></a> ';
 
-                        if($row->trainer_status == 1)
+                        if($row->status == 1)
                         {
-                            $btn .= '<a href="'.url('admin/trainer_status/'.$row->trainer_id.'/'.$row->trainer_status).'" class="btn btn-icon btn-sm btn-warning" title="Click to disable" onclick="confirm_msg(event)"><i class="fa fa-ban"></i></a> ';
+                            $btn .= '<a href="'.url('admin/trainer_status/'.$row->id.'/'.$row->status).'" class="btn btn-icon btn-sm btn-warning" title="Click to disable" onclick="confirm_msg(event)"><i class="fa fa-ban"></i></a> ';
                         }
                         else
                         {
-                            $btn .= '<a href="'.url('admin/trainer_status/'.$row->trainer_id.'/'.$row->trainer_status).'" class="btn btn-icon btn-sm btn-success" title="Click to enable" onclick="confirm_msg(event)"><i class="fa fa-check"></i></a>';
+                            $btn .= '<a href="'.url('admin/trainer_status/'.$row->id.'/'.$row->status).'" class="btn btn-icon btn-sm btn-success" title="Click to enable" onclick="confirm_msg(event)"><i class="fa fa-check"></i></a>';
                         }
 
                         return $btn;
@@ -102,62 +102,38 @@ class AdminTrainerController extends Controller
                 return redirect()->back()->withErrors($validator->errors())->withInput();
             }
 
-            $where_name['trainer_email'] = $request->trainer_email;
-            $check_name = Trainer::where($where_name)->count();
+            $where_name['email'] = $request->trainer_email;
+            $check_name = User::where($where_name)->count();
 
             if($check_name > 0)
             {
                 return redirect()->back()->with('error','Email already in use')->withInput();
             }
 
-            $ins['trainer_name']       = $request->trainer_name;
-            $ins['trainer_type']       = $request->trainer_type;
-            $ins['trainer_email']      = $request->trainer_email;
-            $ins['trainer_phone']      = $request->trainer_phone;
-            $ins['trainer_password']   = bcrypt($request->trainer_password);
-            $ins['trainer_vpassword']   = base64_encode($request->trainer_password);
-            $ins['trainer_status']     = 1;
-            $ins['trainer_added_by']   = Auth::guard('admin')->user()->admin_id;
-            $ins['trainer_added_on']   = date('Y-m-d H:i:s');
-            $ins['trainer_updated_by'] = Auth::guard('admin')->user()->admin_id;
-            $ins['trainer_updated_on'] = date('Y-m-d H:i:s');
+            $ins['fname']       = $request->trainer_name;
+            $ins['type']       = $request->trainer_type;
+            $ins['email']      = $request->email;
+            $ins['phone']      = $request->phone;
+            $ins['password']   = bcrypt($request->password);
+            $ins['vpassword']   = base64_encode($request->password);
+            $ins['status']     = 1;
+            $ins['added_by']   = Auth::guard('admin')->user()->admin_id;
+            $ins['added_on']   = date('Y-m-d H:i:s');
+            $ins['updated_by'] = Auth::guard('admin')->user()->admin_id;
+            $ins['updated_on'] = date('Y-m-d H:i:s');
             if($request->hasFile('trainer_image'))
             {
-                $trainer_image = $request->trainer_image->store('assets/trainer/uploads/profile');
+                $trainer_image = $request->trainer_image->store('assets/user/uploads/profile');
 
                 $trainer_image = explode('/',$trainer_image);
                 $trainer_image = end($trainer_image);
-                $ins['trainer_image'] = $trainer_image;
+                $ins['image'] = $trainer_image;
             }
 
-            $insert_id = Trainer::insertGetId($ins);
+            $insert_id = User::insertGetId($ins);
 
             if($insert_id)
             {
-                $insVend['vendor_name']       = $request->trainer_name;
-                $insVend['vendor_type']       = $request->trainer_type;
-                $insVend['vendor_email']      = $request->trainer_email;
-                $insVend['vendor_phone']      = $request->trainer_phone;
-                $insVend['vendor_password']   = bcrypt($request->trainer_password);
-                $insVend['vendor_vpassword']   = base64_encode($request->trainer_password);
-                $insVend['vendor_status']     = 1;
-                $insVend['vendor_added_by']   = Auth::guard('admin')->user()->admin_id;
-                $insVend['vendor_added_on']   = date('Y-m-d H:i:s');
-                $insVend['vendor_updated_by'] = Auth::guard('admin')->user()->admin_id;
-                $insVend['vendor_updated_on'] = date('Y-m-d H:i:s');
-                if($request->hasFile('trainer_image'))
-                {
-                    $trainer_image = $request->trainer_image->store('assets/vendor/uploads/profile');
-
-                    $trainer_image = explode('/',$trainer_image);
-                    $trainer_image = end($trainer_image);
-                    $insVend['vendor_image'] = $trainer_image;
-                }
-
-                $insert_vid = Vendor::insertGetId($insVend);
-
-                $update = Trainer::where('trainer_id',$insert_id)->update(['trainer_vendor_id'=>$insert_vid]);
-
                 return redirect()->back()->with('success','Trainer Added Successfully');
             }
         }
@@ -165,7 +141,7 @@ class AdminTrainerController extends Controller
 
     public function edit_trainer(Request $request)
     {
-        $data['trainer'] = Trainer::where('trainer_id',$request->segment(3))->first();
+        $data['trainer'] = User::where('id',$request->segment(3))->first();
 
         if(!isset($data['trainer']))
         {
@@ -199,24 +175,24 @@ class AdminTrainerController extends Controller
                 return redirect()->back()->withErrors($validator->errors())->withInput();
             }
 
-            $where_name['trainer_email'] = $request->trainer_email;
-            $check_name = Trainer::where($where_name)->where('trainer_id','!=',$request->segment(3))->count();
+            $where_name['email'] = $request->trainer_email;
+            $check_name = Trainer::where($where_name)->where('id','!=',$request->segment(3))->count();
 
             if($check_name > 0)
             {
                 return redirect()->back()->with('error','Email already in use')->withInput();
             }
 
-            $upd['trainer_name']       = $request->trainer_name;
-            $upd['trainer_type']       = $request->trainer_type;
-            $upd['trainer_email']      = $request->trainer_email;
-            $upd['trainer_phone']      = $request->trainer_phone;
-            $upd['trainer_updated_by'] = Auth::guard('admin')->user()->admin_id;
-            $upd['trainer_updated_on'] = date('Y-m-d H:i:s');
+            $upd['name']       = $request->trainer_name;
+            $upd['type']       = $request->trainer_type;
+            $upd['email']      = $request->trainer_email;
+            $upd['phone']      = $request->trainer_phone;
+            $upd['updated_by'] = Auth::guard('admin')->user()->admin_id;
+            $upd['updated_on'] = date('Y-m-d H:i:s');
             if($request->trainer_password != NULL)
             {
-                $upd['trainer_password']   = bcrypt($request->trainer_password);
-                $upd['trainer_vpassword']   = base64encode($request->trainer_password);
+                $upd['password']   = bcrypt($request->trainer_password);
+                $upd['vpassword']   = base64encode($request->trainer_password);
             }
 
             if($request->hasFile('trainer_image'))
@@ -225,36 +201,13 @@ class AdminTrainerController extends Controller
 
                 $trainer_image = explode('/',$trainer_image);
                 $trainer_image = end($trainer_image);
-                $upd['trainer_image'] = $trainer_image;
+                $upd['image'] = $trainer_image;
             }
 
-            $update = Trainer::where('trainer_id',$request->segment(3))->update($upd);
+            $update = User::where('id',$request->segment(3))->update($upd);
 
             if($update)
             {
-                $updVed['vendor_name']       = $request->trainer_name;
-                $updVed['vendor_type']       = $request->trainer_type;
-                $updVed['vendor_email']      = $request->trainer_email;
-                $updVed['vendor_phone']      = $request->trainer_phone;
-                $updVed['vendor_updated_by'] = Auth::guard('admin')->user()->admin_id;
-                $updVed['vendor_updated_on'] = date('Y-m-d H:i:s');
-                if($request->vendor_password != NULL)
-                {
-                    $updVed['vendor_password']   = bcrypt($request->trainer_password);
-                    $updVed['vendor_vpassword']   = base64encode($request->trainer_password);
-                }
-
-                if($request->hasFile('trainer_image'))
-                {
-                    $trainer_image = $request->trainer_image->store('assets/vendor/uploads/profile');
-
-                    $trainer_image = explode('/',$trainer_image);
-                    $trainer_image = end($trainer_image);
-                    $updVed['vendor_image'] = $trainer_image;
-                }
-
-                $update = Vendor::where('vendor_id',$request->segment(3))->update($updVed);
-
                 return redirect()->back()->with('success','Trainer Updated Successfully');
             }
         }
@@ -267,16 +220,16 @@ class AdminTrainerController extends Controller
 
         if($status == 1)
         {
-            $upd['trainer_status'] = 2;
+            $upd['status'] = 2;
         }
         else
         {
-            $upd['trainer_status'] = 1;
+            $upd['status'] = 1;
         }
 
-        $where['trainer_id'] = $id;
+        $where['id'] = $id;
 
-        $update = Trainer::where($where)->update($upd);
+        $update = User::where($where)->update($upd);
 
         if($update)
         {
@@ -285,15 +238,15 @@ class AdminTrainerController extends Controller
     }
 
 
-    public function trainer_delete(Request $request)
+    public function delete(Request $request)
     {
         $id = $request->segment(3);
 
-        $upd['trainer_trash'] = 1;
+        $upd['trash'] = 1;
 
-        $where['trainer_id'] = $id;
+        $where['id'] = $id;
 
-        $update = Trainer::where($where)->update($upd);
+        $update = User::where($where)->update($upd);
 
         if($update)
         {

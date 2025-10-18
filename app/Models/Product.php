@@ -22,7 +22,7 @@ class Product extends Model
                         ->join('categories','categories.category_id','products.product_category')
                         ->join('brands','brands.brand_id','products.product_brand')
                         ->join('countries','countries.country_id','products.product_country')
-                        ->join('vendors','vendors.vendor_id','products.product_vendor')
+                        ->join('users','users.id','products.product_vendor')
                         ->where($where)
                         ->orderby('product_id','desc')
                         ->get();

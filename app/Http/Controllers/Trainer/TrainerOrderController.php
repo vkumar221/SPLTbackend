@@ -30,7 +30,7 @@ class TrainerOrderController extends Controller
         if($request->ajax())
         {
             $where['order_trash'] = 0;
-            $where['product_vendor'] = Auth::guard('trainer')->user()->trainer_vendor_id;
+            $where['product_vendor'] = Auth::user()->id;
             $data = OrderItem::getOrder($where);
 
             return Datatables::of($data)
@@ -97,8 +97,8 @@ class TrainerOrderController extends Controller
     public function edit_order(Request $request)
     {
         $data['order'] = $order = Order::where('order_id',$request->segment(3))->first();
-        $data['items'] = OrderItem::getDetails(['order_item_order'=>$request->segment(3),'product_vendor'=>Auth::guard('trainer')->user()->trainer_vendor_id]);
-        $data['comments'] = $comments = OrderComment::getDetails(['order_comment_order'=>$request->segment(3),'product_vendor'=>Auth::guard('trainer')->user()->trainer_vendor_id]);
+        $data['items'] = OrderItem::getDetails(['order_item_order'=>$request->segment(3),'product_vendor'=>Auth::user()->id]);
+        $data['comments'] = $comments = OrderComment::getDetails(['order_comment_order'=>$request->segment(3),'product_vendor'=>Auth::user()->id]);
         $data['comment'] = $comments->first();
 
         if(!isset($data['order']))
@@ -130,9 +130,9 @@ class TrainerOrderController extends Controller
                     $ins['order_comment_text']         = $request->order_comment[$item_id];
                     $ins['order_comment_nofity']       = $request->order_comment_nofity[$item_id];
                     $ins['order_comment_added_on']     = date('Y-m-d H:i:s');
-                    $ins['order_comment_added_by']     = Auth::guard('trainer')->user()->trainer_vendor_id;
+                    $ins['order_comment_added_by']     = Auth::user()->id;
                     $ins['order_comment_updated_on']   = date('Y-m-d H:i:s');
-                    $ins['order_comment_updated_by']   = Auth::guard('trainer')->user()->trainer_vendor_id;
+                    $ins['order_comment_updated_by']   = Auth::user()->id;
 
                     $comment =OrderComment::create($ins);
                 }

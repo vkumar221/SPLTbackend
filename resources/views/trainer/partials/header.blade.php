@@ -119,10 +119,10 @@
                 </li>
                 <li class="dropdown pc-h-item header-user-profile">
                     <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
-                        @if(Auth::guard('trainer')->user()->trainer_image == NULL)
+                        @if(Auth::user()->image == NULL)
                         <img src="{{ asset(config('constants.admin_path').'images/placeholder.png')}}" alt="user-image" class="user-avtar" />
                         @else
-                        <img src="{{ asset(config('constants.trainer_path').'uploads/profile/'.Auth::guard('trainer')->user()->trainer_image)}}" alt="user-image" class="user-avtar" />
+                        <img src="{{ asset(config('constants.user_path').'uploads/profile/'.Auth::user()->image)}}" alt="user-image" class="user-avtar" />
                         @endif
                     </a>
                     <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
@@ -131,15 +131,15 @@
                             <div class="profile-notification-scroll position-relative" style="max-height: calc(100vh - 225px);">
                                 <div class="d-flex mb-1">
                                     <div class="flex-shrink-0">
-                                        @if(Auth::guard('trainer')->user()->trainer_image == NULL)
+                                        @if(Auth::user()->image == NULL)
                                         <img src="{{ asset(config('constants.admin_path').'images/placeholder.png')}}" alt="user-image" class="user-avtar wid-35" />
                                         @else
-                                        <img src="{{ asset(config('constants.trainer_path').'uploads/profile/'.Auth::guard('trainer')->user()->trainer_image)}}" alt="user-image" class="user-avtar wid-35" />
+                                        <img src="{{ asset(config('constants.user_path').'uploads/profile/'.Auth::user()->image)}}" alt="user-image" class="user-avtar wid-35" />
                                         @endif
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h6 class="mb-1">{{Auth::guard('trainer')->user()->trainer_name}} 🖖</h6>
-                                        <span>{{Auth::guard('trainer')->user()->admin_email}}</span>
+                                        <h6 class="mb-1">{{Auth::user()->fname}} 🖖</h6>
+                                        <span>{{Auth::user()->email}}</span>
                                     </div>
                                 </div>
                                 <hr class="border-secondary border-opacity-50" />

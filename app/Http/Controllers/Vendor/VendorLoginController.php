@@ -41,7 +41,7 @@ class VendorLoginController extends Controller
 
                 if(Auth::guard('vendor')->attempt($where))
                 {
-                    if(Auth::guard('vendor')->user()->vendor_status == 1)
+                    if(Auth::user()->status == 1)
                     {
                         return redirect('vendor/dashboard');
                     }

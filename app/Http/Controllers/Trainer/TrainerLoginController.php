@@ -41,7 +41,7 @@ class TrainerLoginController extends Controller
 
                 if(Auth::guard('trainer')->attempt($where))
                 {
-                    if(Auth::guard('trainer')->user()->trainer_status == 1)
+                    if(Auth::user()->status == 1)
                     {
                         return redirect('trainer/dashboard');
                     }

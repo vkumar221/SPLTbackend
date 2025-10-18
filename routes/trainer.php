@@ -13,6 +13,7 @@ use App\Http\Controllers\Trainer\TrainerVideoController;
 use App\Http\Controllers\Trainer\TrainerProductController;
 use App\Http\Controllers\Trainer\TrainerInventoryController;
 use App\Http\Controllers\Trainer\TrainerOrderController;
+use App\Http\Controllers\Trainer\TrainerNewsletterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -143,6 +144,17 @@ Route::group(['middleware' => ['checktrainer',]], function () {
     Route::get('edit_order/{id}',[TrainerOrderController::class, 'edit_order'])->name('trainer.edit-order-page');
     Route::post('update_order_address/{id}',[TrainerOrderController::class, 'update_order_address'])->name('trainer.update-order-address');
     Route::post('order_status/{id}',[TrainerOrderController::class, 'order_status'])->name('trainer.update-order-status');
+
+    //Newsletter
+    Route::get('newsletters', [TrainerNewsletterController::class, 'index'])->name('trainer.newsletters');
+    Route::get('add_newsletter',[TrainerNewsletterController::class, 'add_newsletter'])->name('trainer.add-newsletter-page');
+    Route::post('create_newsletter',[TrainerNewsletterController::class, 'create_newsletter'])->name('trainer.add-newsletter');
+    Route::get('edit_newsletter/{id}',[TrainerNewsletterController::class, 'edit_newsletter'])->name('trainer.edit-newsletter-page');
+    Route::post('update_newsletter/{id}',[TrainerNewsletterController::class, 'update_newsletter'])->name('trainer.edit-newsletter');
+    Route::post('view_exercise',[TrainerNewsletterController::class, 'view_exercise'])->name('trainer.view-exercise');
+    Route::get('newsletter_delete/{id}',[TrainerNewsletterController::class, 'newsletter_delete'])->name('trainer.newsletter-delete');
+    Route::post('select_product',[TrainerNewsletterController::class, 'select_product'])->name('trainer.select-product');
+    Route::post('filter_newsletters',[TrainerNewsletterController::class, 'filter_newsletter'])->name('trainer.filter-newsletters');
 
 
 });

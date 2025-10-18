@@ -19,7 +19,6 @@ class TrainerCertificate extends Model
         $certificate = new TrainerCertificate;
 
         return $certificate->select('*')
-                        ->join('trainers','trainers.trainer_id','trainer_certificates.certificate_added_by')
                         ->where($where)
                         ->orderby('certificate_id','desc')
                         ->get();

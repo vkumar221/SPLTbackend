@@ -25,7 +25,7 @@
     <!-- [ breadcrumb ] end -->
     <!-- welcome msg -->
     <div class="welcome-msg__box">
-        <h3>Hello, {{Auth::guard('trainer')->user()->trainer_name}} 👋</h3>
+        <h3>Hello, {{Auth::user()->fname}} 👋</h3>
         <p>Get an overview of your clients' progress.</p>
     </div>
     <!-- [ Main Content ] start -->

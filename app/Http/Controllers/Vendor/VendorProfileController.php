@@ -40,30 +40,30 @@ class VendorProfileController extends Controller
             }
             else
             {
-                $where_email['vendor_email'] = $request->vendor_email;
+                $where_email['email'] = $request->vendor_email;
 
-                $check_email = Vendor::where($where_email)->where('vendor_id','!=',Auth::guard('vendor')->user()->vendor_id)->count();
+                $check_email = User::where($where_email)->where('id','!=',Auth::user()->id)->count();
 
                 if($check_email > 0)
                 {
                     return redirect()->back()->with('error','Email Address Already Exists')->withInput();
                 }
 
-                $upd['vendor_name']       = $request->vendor_name;
-                $upd['vendor_email']      = $request->vendor_email;
-                $upd['vendor_updated_on'] = date('Y-m-d H:i:s');
-                $upd['vendor_updated_by'] = Auth::guard('vendor')->user()->vendor_id;
+                $upd['fname']       = $request->vendor_name;
+                $upd['email']      = $request->vendor_email;
+                $upd['updated_on'] = date('Y-m-d H:i:s');
+                $upd['updated_by'] = Auth::user()->id;
 
                 if($request->hasFile('vendor_image'))
                 {
-                    $vendor_image = $request->vendor_image->store('assets/vendor/uploads/profile');
+                    $vendor_image = $request->vendor_image->store('assets/user/uploads/profile');
 
                     $vendor_image = explode('/',$vendor_image);
                     $vendor_image = end($vendor_image);
-                    $upd['vendor_image'] = $vendor_image;
+                    $upd['image'] = $vendor_image;
                 }
 
-                $vendor = Vendor::where('vendor_id',Auth::guard('vendor')->user()->vendor_id)->update($upd);
+                $vendor = User::where('_id',Auth::user()->id)->update($upd);
 
                 return redirect()->back()->with('success','Details Updated Successfully');
             }
@@ -96,19 +96,19 @@ class VendorProfileController extends Controller
             }
             else
             {
-                $where['vendor_id'] = Auth::guard('vendor')->user()->vendor_id;
-                $where['vendor_vpassword'] = base64_encode($request->current_password);
+                $where['id'] = Auth::user()->id;
+                $where['vpassword'] = base64_encode($request->current_password);
 
-                $check = Vendor::where($where)->count();
+                $check = User::where($where)->count();
 
                 if($check > 0)
                 {
-                    $upd['vendor_password']   = bcrypt($request->confirm_password);
-                    $upd['vendor_vpassword']  = base64_encode($request->confirm_password);
-                    $upd['vendor_updated_on'] = date('Y-m-d H:i:s');
-                    $upd['vendor_updated_by'] = Auth::guard('vendor')->user()->vendor_id;
+                    $upd['password']   = bcrypt($request->confirm_password);
+                    $upd['vpassword']  = base64_encode($request->confirm_password);
+                    $upd['updated_on'] = date('Y-m-d H:i:s');
+                    $upd['updated_by'] = Auth::user()->id;
 
-                    $update = Vendor::where('vendor_id',Auth::guard('vendor')->user()->vendor_id)->update($upd);
+                    $update = User::where('id',Auth::user()->id)->update($upd);
 
                     return redirect()->back()->with('success','Password Changed Successfully');
                 }
@@ -122,10 +122,10 @@ class VendorProfileController extends Controller
     }
     public function check_old_password(Request $request)
     {
-        $where['vendor_id']  = Auth::guard('vendor')->user()->vendor_id;
-        $where['vendor_vpassword'] = base64_encode($request->old_password);
+        $where['id']  = Auth::user()->id;
+        $where['vpassword'] = base64_encode($request->old_password);
 
-        $check = Vendor::where($where)->count();
+        $check = User::where($where)->count();
 
         if($check > 0)
         {

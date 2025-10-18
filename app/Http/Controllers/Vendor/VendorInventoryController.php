@@ -18,7 +18,7 @@ class VendorInventoryController extends Controller
     public function index(Request $request)
     {
         $data['set'] = 'inventory';
-        $data['products'] = Product::where(['product_vendor'=>Auth::guard('vendor')->user()->vendor_id,'product_status'=>1])->get();
+        $data['products'] = Product::where(['product_vendor'=>Auth::user()->id,'product_status'=>1])->get();
         return view('vendor.inventory.inventory',$data);
     }
 
@@ -27,7 +27,7 @@ class VendorInventoryController extends Controller
         if($request->ajax())
         {
             $where['inventory_trash'] = 0;
-            $where['product_vendor'] = Auth::guard('vendor')->user()->vendor_id;
+            $where['product_vendor'] = Auth::user()->id;
             if(!empty($request->product))
             {
                 $where['product_id'] = $request->product;
@@ -62,7 +62,7 @@ class VendorInventoryController extends Controller
     public function add_stock(Request $request)
     {
         $data['set'] = 'inventory';
-        $data['products'] = Product::where(['product_vendor'=>Auth::guard('vendor')->user()->vendor_id,'product_status'=>1])->get();
+        $data['products'] = Product::where(['product_vendor'=>Auth::user()->id,'product_status'=>1])->get();
         return view('vendor.inventory.add_stock',$data);
     }
 
@@ -136,9 +136,9 @@ class VendorInventoryController extends Controller
                     $insInv['inventory_variant']     = $product_variant;
                     $insInv['inventory_open_stock']  = $variant->product_variant_stock - $variant->product_variant_sale;
                     $insInv['inventory_close_stock'] = $insInv['inventory_open_stock'] + $request->inventory_stock[$product_variant];
-                    $insInv['inventory_added_by']    = Auth::guard('vendor')->user()->vendor_id;
+                    $insInv['inventory_added_by']    = Auth::user()->id;
                     $insInv['inventory_added_on	']   = date('Y-m-d H:i:s');
-                    $insInv['inventory_updated_by']  = Auth::guard('vendor')->user()->vendor_id;
+                    $insInv['inventory_updated_by']  = Auth::user()->id;
                     $insInv['inventory_updated_on']  = date('Y-m-d H:i:s');
 
                     $inventory = Inventory::create($insInv);

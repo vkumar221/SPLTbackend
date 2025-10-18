@@ -17,7 +17,7 @@ class CheckVendor
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!Auth::guard('vendor')->check())
+        if(!Auth::check())
         {
             return redirect('vendor');
         }

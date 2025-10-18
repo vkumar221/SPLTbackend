@@ -31,7 +31,7 @@ class VendorProductController extends Controller
     {
         if($request->ajax())
         {
-            $where['product_vendor'] = Auth::guard('vendor')->user()->vendor_id;
+            $where['product_vendor'] = Auth::user()->id;
             if(!empty($request->category))
             {
                 $where['product_category'] = $request->category;
@@ -156,7 +156,7 @@ class VendorProductController extends Controller
             $ins['product_name']               = $request->product_name;
             $ins['product_slug']               = Str::slug($request->product_name);
             $ins['product_category']           = $request->product_category;
-            $ins['product_vendor']             = Auth::guard('vendor')->user()->vendor_id;
+            $ins['product_vendor']             = Auth::user()->id;
             $ins['product_country']            = $request->product_country;
             $ins['product_tags']               = $request->product_tags;
             $ins['product_sku']                = $request->product_sku;
@@ -166,9 +166,9 @@ class VendorProductController extends Controller
             $ins['product_offer_price']        = $request->product_offer_price;
             $ins['product_description']        = $request->product_description;
             $ins['product_status']             = 1;
-            $ins['product_added_by']           = Auth::guard('vendor')->user()->vendor_id;
+            $ins['product_added_by']           = Auth::user()->id;
             $ins['product_added_on']           = date('Y-m-d H:i:s');
-            $ins['product_updated_by']         = Auth::guard('vendor')->user()->vendor_id;
+            $ins['product_updated_by']         = Auth::user()->id;
             $ins['product_updated_on']         = date('Y-m-d H:i:s');
 
             if($request->hasFile('product_image'))
@@ -194,9 +194,9 @@ class VendorProductController extends Controller
                     $insVar['product_variant_offer_price'] = $request->product_variant_offer_price[$key];
                     $insVar['product_variant_stock']       = $request->product_variant_stock[$key];
                     $insVar['product_variant_status']      = $request->product_variant_status[$key];
-                    $insVar['product_variant_added_by']    = Auth::guard('vendor')->user()->vendor_id;
+                    $insVar['product_variant_added_by']    = Auth::user()->id;
                     $insVar['product_variant_added_on']    = date('Y-m-d H:i:s');
-                    $insVar['product_variant_updated_by']  = Auth::guard('vendor')->user()->vendor_id;
+                    $insVar['product_variant_updated_by']  = Auth::user()->id;
                     $insVar['product_variant_updated_on']  = date('Y-m-d H:i:s');
 
                     if($request->hasFile('product_variant_image'.$key))
@@ -213,9 +213,9 @@ class VendorProductController extends Controller
                     $insInv['inventory_variant']     = $variant_id;
                     $insInv['inventory_open_stock']  = 0;
                     $insInv['inventory_close_stock'] = $request->product_variant_stock[$key];
-                    $insInv['inventory_added_by']    = Auth::guard('vendor')->user()->vendor_id;
+                    $insInv['inventory_added_by']    = Auth::user()->id;
                     $insInv['inventory_added_on	']   = date('Y-m-d H:i:s');
-                    $insInv['inventory_updated_by']  = Auth::guard('vendor')->user()->vendor_id;
+                    $insInv['inventory_updated_by']  = Auth::user()->id;
                     $insInv['inventory_updated_on']  = date('Y-m-d H:i:s');
 
                     $inventory = Inventory::create($insInv);
@@ -295,7 +295,7 @@ class VendorProductController extends Controller
             $upd['product_price']              = $request->product_price;
             $upd['product_offer_price']        = $request->product_offer_price;
             $upd['product_description']        = $request->product_description;
-            $upd['product_updated_by']         = Auth::guard('vendor')->user()->vendor_id;
+            $upd['product_updated_by']         = Auth::user()->id;
             $upd['product_updated_on']         = date('Y-m-d H:i:s');
 
             if($request->hasFile('product_image'))
@@ -316,7 +316,7 @@ class VendorProductController extends Controller
                 $variant->product_variant_price      = $request->product_variant_price[$key];
                 $variant->product_variant_offer_price = $request->product_variant_offer_price[$key];
                 $variant->product_variant_status     = $request->product_variant_status[$key];
-                $variant->product_variant_updated_by  = Auth::guard('vendor')->user()->vendor_id;
+                $variant->product_variant_updated_by  = Auth::user()->id;
                 $variant->product_variant_updated_on  = date('Y-m-d H:i:s');
 
                 if($request->hasFile('product_variant_image'.$key))

@@ -108,7 +108,7 @@
             {data: 'image'},
             {data: 'category_name'},
             {data: 'product_sku'},
-            {data: 'vendor_name'},
+            {data: 'fname'},
             {data: 'product_price'},
             {data: 'status'},
             {data: 'action',orderable: false, searchable: false}

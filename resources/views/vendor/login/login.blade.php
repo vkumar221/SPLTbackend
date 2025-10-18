@@ -28,16 +28,16 @@
             <form action="{{route('vendor.authenticate-login')}}" method="POST">
                 @csrf
               <div class="mb-3">
-                <input type="email" class="form-control" name="vendor_email" id="vendor_email" placeholder="Email Address" required />
-                @if($errors->has('vendor_email'))
-                <div class="text-danger">{{ $errors->first('vendor_email') }}</div>
+                <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" required />
+                @if($errors->has('email'))
+                <div class="text-danger">{{ $errors->first('email') }}</div>
                 @endif
               </div>
 
               <div class="mb-3">
-                <input type="password" class="form-control" name="vendor_password" id="vendor_password" placeholder="Password" required />
-                @if($errors->has('vendor_password'))
-                <div class="text-danger">{{ $errors->first('vendor_password') }}</div>
+                <input type="password" class="form-control" name="password" id="password" placeholder="Password" required />
+                @if($errors->has('password'))
+                <div class="text-danger">{{ $errors->first('password') }}</div>
                 @endif
               </div>
 

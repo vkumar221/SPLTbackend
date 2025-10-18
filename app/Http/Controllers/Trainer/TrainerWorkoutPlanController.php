@@ -22,7 +22,7 @@ class TrainerWorkoutPlanController extends Controller
     {
         $data['set'] = 'workout_plans';
         $data['workout_categories'] = WorkoutCategory::where('workout_category_status',1)->get();
-        $data['my_workout_plans'] = WorkoutPlan::getPlanTrainer(['trainer_workout_trainer'=>Auth::guard('trainer')->user()->trainer_id]);
+        $data['my_workout_plans'] = WorkoutPlan::getPlanTrainer(['trainer_workout_trainer'=>Auth::user()->id]);
         $exercises = WorkoutPlanExercise::get();
         if($exercises->count() > 0)
         {
@@ -130,10 +130,10 @@ class TrainerWorkoutPlanController extends Controller
             $ins['workout_plan_goal']          = $request->workout_plan_goal;
             $ins['workout_plan_days']          = $request->workout_plan_days;
             $ins['workout_plan_status']        = 1;
-            $ins['workout_plan_added_role']    = 3;
-            $ins['workout_plan_added_by']      = Auth::guard('trainer')->user()->trainer_id;
+            $ins['workout_plan_added_role']    = 2;
+            $ins['workout_plan_added_by']      = Auth::user()->id;
             $ins['workout_plan_added_on']      = date('Y-m-d H:i:s');
-            $ins['workout_plan_updated_by']    = Auth::guard('trainer')->user()->trainer_id;
+            $ins['workout_plan_updated_by']    = Auth::user()->id;
             $ins['workout_plan_updated_on']    = date('Y-m-d H:i:s');
 
             $workout_plan_id = WorkoutPlan::insertGetId($ins);
@@ -156,7 +156,7 @@ class TrainerWorkoutPlanController extends Controller
             if($workout_plan_id)
             {
                 $trn_plan['trainer_workout_plan'] = $workout_plan_id;
-                $trn_plan['trainer_workout_trainer'] = Auth::guard('trainer')->user()->trainer_id;
+                $trn_plan['trainer_workout_trainer'] = Auth::user()->id;
 
                 DB::table('trainer_workout_plans')->insert($trn_plan);
 
@@ -224,7 +224,7 @@ class TrainerWorkoutPlanController extends Controller
             $upd['workout_plan_note']          = $request->workout_plan_note;
             $upd['workout_plan_goal']          = $request->workout_plan_goal;
             $upd['workout_plan_days']          = $request->workout_plan_days;
-            $upd['workout_plan_updated_by']    = Auth::guard('trainer')->user()->trainer_id;
+            $upd['workout_plan_updated_by']    = Auth::user()->id;
             $upd['workout_plan_updated_on']    = date('Y-m-d H:i:s');
 
             $update = WorkoutPlan::where('workout_plan_id',$request->segment(3))->update($upd);
@@ -337,11 +337,11 @@ class TrainerWorkoutPlanController extends Controller
     {
         $id = $request->segment(3);
 
-        $check = DB::table('trainer_workout_plans')->where(['trainer_workout_plan'=>$id,'trainer_workout_trainer'=>Auth::guard('trainer')->user()->trainer_id])->count();
+        $check = DB::table('trainer_workout_plans')->where(['trainer_workout_plan'=>$id,'trainer_workout_trainer'=>Auth::user()->id])->count();
 
         if($check == 0)
         {
-            DB::table('trainer_workout_plans')->insert(['trainer_workout_plan'=>$id,'trainer_workout_trainer'=>Auth::guard('trainer')->user()->trainer_id]);
+            DB::table('trainer_workout_plans')->insert(['trainer_workout_plan'=>$id,'trainer_workout_trainer'=>Auth::user()->id]);
 
             return redirect()->back()->with('success','Workout Plan added to your Library');
         }
@@ -356,11 +356,11 @@ class TrainerWorkoutPlanController extends Controller
     {
         $id = $request->segment(3);
 
-        $check = DB::table('trainer_workout_plans')->where(['trainer_workout_plan'=>$id,'trainer_workout_trainer'=>Auth::guard('trainer')->user()->trainer_id])->count();
+        $check = DB::table('trainer_workout_plans')->where(['trainer_workout_plan'=>$id,'trainer_workout_trainer'=>Auth::user()->id])->count();
 
         if($check > 0)
         {
-            DB::table('trainer_workout_plans')->where(['trainer_workout_plan'=>$id,'trainer_workout_trainer'=>Auth::guard('trainer')->user()->trainer_id])->delete();
+            DB::table('trainer_workout_plans')->where(['trainer_workout_plan'=>$id,'trainer_workout_trainer'=>Auth::user()->id])->delete();
 
             return redirect()->back()->with('success','Workout Plan deleted from Library');
         }

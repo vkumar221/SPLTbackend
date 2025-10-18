@@ -19,7 +19,6 @@ class Video extends Model
         $video = new Video;
 
         return $video->select('*')
-                        ->join('trainers','trainers.trainer_id','videos.video_added_by')
                         ->join('video_sections','video_sections.video_section_id','videos.video_section')
                         ->where($where)
                         ->orderby('video_id','desc')

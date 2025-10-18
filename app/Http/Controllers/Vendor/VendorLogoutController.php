@@ -10,7 +10,7 @@ class VendorLogoutController extends Controller
 {
     public function index(Request $request)
     {
-        Auth::guard('vendor')->logout();
+        Auth::logout();
 
         return redirect('vendor');
     }

@@ -224,7 +224,7 @@
         if(attribute != '')
         {
             $.ajax({
-                    url: "{{ url('vendor/select_attribute') }}",
+                    url: "{{ url('trainer/select_attribute') }}",
                     type: "post",
                     data: '_token='+csrf+'&attribute='+attribute,
                     success: function (data) {
@@ -254,7 +254,7 @@
       if(attribute_val != '')
       {
         $.ajax({
-                url: "{{ url('vendor/attribute_price') }}",
+                url: "{{ url('trainer/attribute_price') }}",
                 type: "post",
                 data: '_token='+csrf+'&attribute_variation='+attribute_val+'&attributes='+attributes,
                 success: function (data) {

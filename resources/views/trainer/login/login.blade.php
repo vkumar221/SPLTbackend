@@ -28,16 +28,16 @@
             <form action="{{route('trainer.authenticate-login')}}" method="POST">
                 @csrf
               <div class="mb-3">
-                <input type="email" class="form-control" name="trainer_email" id="trainer_email" placeholder="Email Address" required />
-                @if($errors->has('trainer_email'))
-                <div class="text-danger">{{ $errors->first('trainer_email') }}</div>
+                <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" required />
+                @if($errors->has('email'))
+                <div class="text-danger">{{ $errors->first('email') }}</div>
                 @endif
               </div>
 
               <div class="mb-3">
-                <input type="password" class="form-control" name="trainer_password" id="trainer_password" placeholder="Password" required />
-                @if($errors->has('trainer_password'))
-                <div class="text-danger">{{ $errors->first('trainer_password') }}</div>
+                <input type="password" class="form-control" name="password" id="password" placeholder="Password" required />
+                @if($errors->has('password'))
+                <div class="text-danger">{{ $errors->first('password') }}</div>
                 @endif
               </div>
 

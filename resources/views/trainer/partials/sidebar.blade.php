@@ -90,6 +90,15 @@
                         <span class="pc-mtext" data-i18n="Order Management">Order Management</span>
                     </a>
                 </li>
+                <li class="pc-item">
+                    <a href="{{url('trainer/newsletters')}}" class="pc-link @if(isset($set) && $set == 'newsletters') active @endif">
+                        <span class="pc-micon">
+                            <img class="icon-active" src="{{ asset(config('constants.admin_path').'images/icons/newsletter.svg')}}" alt="newsletter.svg">
+                            <img class="icon-default" src="{{ asset(config('constants.admin_path').'images/icons/newsletter.svg') }}" alt="newsletter.svg">
+                        </span>
+                        <span class="pc-mtext" data-i18n="Newsletter">Newsletter</span>
+                    </a>
+                </li>
                 {{--
                 <li class="pc-item pc-hasmenu">
                     <a href="javascript:void(0)" class="pc-link">

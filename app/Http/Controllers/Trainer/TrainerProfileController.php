@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use Validator;
-use App\Models\Trainer;
+use App\Models\User;
 
 class TrainerProfileController extends Controller
 {
@@ -42,28 +42,28 @@ class TrainerProfileController extends Controller
             {
                 $where_email['trainer_email'] = $request->trainer_email;
 
-                $check_email = Trainer::where($where_email)->where('trainer_id','!=',Auth::guard('trainer')->user()->trainer_id)->count();
+                $check_email = Trainer::where($where_email)->where('trainer_id','!=',Auth::user()->id)->count();
 
                 if($check_email > 0)
                 {
                     return redirect()->back()->with('error','Email Address Already Exists')->withInput();
                 }
 
-                $upd['trainer_name']       = $request->trainer_name;
-                $upd['trainer_email']      = $request->trainer_email;
-                $upd['trainer_updated_on'] = date('Y-m-d H:i:s');
-                $upd['trainer_updated_by'] = Auth::guard('trainer')->user()->trainer_id;
+                $upd['fname']       = $request->trainer_name;
+                $upd['email']      = $request->trainer_email;
+                $upd['updated_on'] = date('Y-m-d H:i:s');
+                $upd['updated_by'] = Auth::user()->id;
 
                 if($request->hasFile('trainer_image'))
                 {
-                    $trainer_image = $request->trainer_image->store('assets/trainer/uploads/profile');
+                    $trainer_image = $request->trainer_image->store('assets/user/uploads/profile');
 
                     $trainer_image = explode('/',$trainer_image);
                     $trainer_image = end($trainer_image);
-                    $upd['trainer_image'] = $trainer_image;
+                    $upd['image'] = $trainer_image;
                 }
 
-                $trainer = Trainer::where('trainer_id',Auth::guard('trainer')->user()->trainer_id)->update($upd);
+                $trainer = User::where('id',Auth::user()->id)->update($upd);
 
                 return redirect()->back()->with('success','Details Updated Successfully');
             }
@@ -96,19 +96,19 @@ class TrainerProfileController extends Controller
             }
             else
             {
-                $where['trainer_id'] = Auth::guard('trainer')->user()->trainer_id;
-                $where['trainer_vpassword'] = base64_encode($request->current_password);
+                $where['id'] = Auth::user()->id;
+                $where['vpassword'] = base64_encode($request->current_password);
 
-                $check = Trainer::where($where)->count();
+                $check = User::where($where)->count();
 
                 if($check > 0)
                 {
-                    $upd['trainer_password']   = bcrypt($request->confirm_password);
-                    $upd['trainer_vpassword']  = base64_encode($request->confirm_password);
-                    $upd['trainer_updated_on'] = date('Y-m-d H:i:s');
-                    $upd['trainer_updated_by'] = Auth::guard('trainer')->user()->trainer_id;
+                    $upd['password']   = bcrypt($request->confirm_password);
+                    $upd['vpassword']  = base64_encode($request->confirm_password);
+                    $upd['updated_on'] = date('Y-m-d H:i:s');
+                    $upd['updated_by'] = Auth::user()->id;
 
-                    $update = Trainer::where('trainer_id',Auth::guard('trainer')->user()->trainer_id)->update($upd);
+                    $update = User::where('id',Auth::user()->id)->update($upd);
 
                     return redirect()->back()->with('success','Password Changed Successfully');
                 }
@@ -122,10 +122,10 @@ class TrainerProfileController extends Controller
     }
     public function check_old_password(Request $request)
     {
-        $where['trainer_id']  = Auth::guard('trainer')->user()->trainer_id;
-        $where['trainer_vpassword'] = base64_encode($request->old_password);
+        $where['id']  = Auth::user()->id;
+        $where['vpassword'] = base64_encode($request->old_password);
 
-        $check = Trainer::where($where)->count();
+        $check = User::where($where)->count();
 
         if($check > 0)
         {

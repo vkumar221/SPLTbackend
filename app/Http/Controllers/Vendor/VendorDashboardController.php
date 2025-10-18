@@ -19,7 +19,7 @@ class VendorDashboardController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::guard('vendor')->logout();
+        Auth::logout();
 
         return redirect()->route('vendor.login');
     }

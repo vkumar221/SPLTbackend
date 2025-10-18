@@ -145,9 +145,9 @@ class TrainerWorkoutController extends Controller
             $ins['workout_youtube']            = $request->workout_youtube;
             $ins['workout_status']             = 1;
             $ins['workout_added_role']         = 3;
-            $ins['workout_added_by']           = Auth::guard('trainer')->user()->trainer_id;
+            $ins['workout_added_by']           = Auth::user()->id;
             $ins['workout_added_on']           = date('Y-m-d H:i:s');
-            $ins['workout_updated_by']         = Auth::guard('trainer')->user()->trainer_id;
+            $ins['workout_updated_by']         = Auth::user()->id;
             $ins['workout_updated_on']         = date('Y-m-d H:i:s');
 
             if($request->hasFile('workout_image'))
@@ -228,7 +228,7 @@ class TrainerWorkoutController extends Controller
             $upd['workout_instruction']        = json_encode($request->workout_instruction);
             $upd['workout_vimeo']              = $request->workout_vimeo;
             $upd['workout_youtube']            = $request->workout_youtube;
-            $upd['workout_updated_by']         = Auth::guard('trainer')->user()->trainer_id;
+            $upd['workout_updated_by']         = Auth::user()->id;
             $upd['workout_updated_on']         = date('Y-m-d H:i:s');
 
             if($request->hasFile('workout_image'))

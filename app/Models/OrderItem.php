@@ -22,7 +22,7 @@ class OrderItem extends Model
                         ->join('orders','orders.order_id','order_items.order_item_order')
                         ->join('products','products.product_id','order_items.order_item_product')
                         ->leftJoin('product_variants','product_variants.product_variant_id','order_items.order_item_variant')
-                        ->join('vendors','vendors.vendor_id','products.product_vendor')
+                        ->join('users','users.id','products.product_vendor')
                         ->where($where)
                         ->orderby('order_item_id','desc')
                         ->get();
@@ -34,10 +34,9 @@ class OrderItem extends Model
 
         return $order_item->select('*')
                         ->join('orders','orders.order_id','order_items.order_item_order')
-                        ->join('users','users.id','orders.order_added_by')
                         ->join('products','products.product_id','order_items.order_item_product')
                         ->leftJoin('product_variants','product_variants.product_variant_id','order_items.order_item_variant')
-                        ->join('vendors','vendors.vendor_id','products.product_vendor')
+                        ->join('users','users.id','products.product_vendor')
                         ->where($where)
                         ->orderby('order_item_id','desc')
                         ->groupBy('order_id')

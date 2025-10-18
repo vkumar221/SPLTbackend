@@ -16,8 +16,8 @@ class TrainerVideoController extends Controller
     public function index(Request $request)
     {
         $data['set'] = 'videos';
-        $data['video_sections'] = VideoSection::getDetails(['video_section_added_by'=>Auth::guard('trainer')->user()->trainer_id]);
-        $videos = Video::getDetails(['video_added_by'=>Auth::guard('trainer')->user()->trainer_id]);
+        $data['video_sections'] = VideoSection::getDetails(['video_section_added_by'=>Auth::user()->id]);
+        $videos = Video::getDetails(['video_added_by'=>Auth::user()->id]);
 
         if($videos->count() > 0)
         {
@@ -61,9 +61,9 @@ class TrainerVideoController extends Controller
             $ins['video_section_title']        = $request->video_section_title;
             $ins['video_section_status']       = ($request->video_section_status) ? $request->video_section_status : 2;
             $ins['video_section_role']         = 3;
-            $ins['video_section_added_by']     = Auth::guard('trainer')->user()->trainer_id;
+            $ins['video_section_added_by']     = Auth::user()->id;
             $ins['video_section_added_on']     = date('Y-m-d H:i:s');
-            $ins['video_section_updated_by']   = Auth::guard('trainer')->user()->trainer_id;
+            $ins['video_section_updated_by']   = Auth::user()->id;
             $ins['video_section_updated_on']   = date('Y-m-d H:i:s');
 
             if($request->hasFile('video_section_image'))
@@ -134,7 +134,7 @@ class TrainerVideoController extends Controller
 
                 $upd['video_section_title']        = $request->video_section_title;
                 $upd['video_section_status']       = ($request->video_section_status) ? $request->video_section_status : 2;
-                $upd['video_section_updated_by']   = Auth::guard('trainer')->user()->trainer_id;
+                $upd['video_section_updated_by']   = Auth::user()->id;
                 $upd['video_section_updated_on']   = date('Y-m-d H:i:s');
 
                 if($request->hasFile('video_section_image'))
@@ -159,7 +159,7 @@ class TrainerVideoController extends Controller
     public function add_video(Request $request)
     {
         $data['set'] = 'videos';
-        $data['video_sections'] = VideoSection::getDetails(['video_section_added_by'=>Auth::guard('trainer')->user()->trainer_id]);
+        $data['video_sections'] = VideoSection::getDetails(['video_section_added_by'=>Auth::user()->id]);
         return view('trainer.videos.add_video',$data);
     }
 
@@ -204,10 +204,10 @@ class TrainerVideoController extends Controller
             $ins['video_youtube']              = $request->video_youtube;
             $ins['video_status']               = ($request->video_status) ? $request->video_status : 2;
             $ins['video_featured']             = ($request->video_featured) ? $request->video_featured : 2;
-            $ins['video_role']                 = 3;
-            $ins['video_added_by']             = Auth::guard('trainer')->user()->trainer_id;
+            $ins['video_role']                 = 2;
+            $ins['video_added_by']             = Auth::user()->id;
             $ins['video_added_on']             = date('Y-m-d H:i:s');
-            $ins['video_updated_by']           = Auth::guard('trainer')->user()->trainer_id;
+            $ins['video_updated_by']           = Auth::user()->id;
             $ins['video_updated_on']           = date('Y-m-d H:i:s');
 
             if($request->hasFile('video_image'))
@@ -240,7 +240,7 @@ class TrainerVideoController extends Controller
     public function edit_video(Request $request)
     {
         $data['video'] = $video = Video::where('video_id',$request->segment(3))->first();
-        $data['video_sections'] = VideoSection::getDetails(['video_section_added_by'=>Auth::guard('trainer')->user()->trainer_id]);
+        $data['video_sections'] = VideoSection::getDetails(['video_section_added_by'=>Auth::user()->id]);
 
         if(!isset($data['video']))
         {
@@ -293,7 +293,7 @@ class TrainerVideoController extends Controller
             $upd['video_youtube']            = $request->video_youtube;
             $upd['video_status']             = ($request->video_status) ? $request->video_status : 2;
             $upd['video_featured']           = ($request->video_featured) ? $request->video_featured : 2;
-            $upd['video_updated_by']         = Auth::guard('trainer')->user()->trainer_id;
+            $upd['video_updated_by']         = Auth::user()->id;
             $upd['video_updated_on']         = date('Y-m-d H:i:s');
 
             if($request->hasFile('video_image'))

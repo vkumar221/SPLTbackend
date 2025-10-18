@@ -28,7 +28,7 @@ class TrainerClientController extends Controller
     {
         if($request->ajax())
         {
-            $data = User::getClientTrainer(['trainer_client_trainer'=>Auth::guard('trainer')->user()->trainer_id]);
+            $data = User::getClientTrainer(['trainer_client_trainer'=>Auth::user()->id]);
 
             return Datatables::of($data)
                     ->addIndexColumn()
@@ -139,9 +139,9 @@ class TrainerClientController extends Controller
             $ins['password']   = bcrypt($request->password);
             $ins['vpassword']  = base64_encode($request->password);
             $ins['status']     = 1;
-            $ins['added_by']   = Auth::guard('trainer')->user()->trainer_id;
+            $ins['added_by']   = Auth::user()->id;
             $ins['added_on']   = date('Y-m-d H:i:s');
-            $ins['updated_by'] = Auth::guard('trainer')->user()->trainer_id;
+            $ins['updated_by'] = Auth::user()->id;
             $ins['updated_on'] = date('Y-m-d H:i:s');
 
             if($request->hasFile('image'))
@@ -158,7 +158,7 @@ class TrainerClientController extends Controller
             if($insert_id)
             {
                 $ins_client['trainer_client'] = $insert_id;
-                $ins_client['trainer_client_trainer'] = Auth::guard('trainer')->user()->trainer_id;
+                $ins_client['trainer_client_trainer'] = Auth::user()->id;
 
                 DB::table('trainer_clients')->insert($ins_client);
 
@@ -451,7 +451,7 @@ class TrainerClientController extends Controller
             $upd['uname']      = $request->uname;
             $upd['email']      = $request->email;
             $upd['phone']      = $request->phone;
-            $upd['updated_by'] = Auth::guard('trainer')->user()->trainer_id;
+            $upd['updated_by'] = Auth::user()->id;
             $upd['updated_on'] = date('Y-m-d H:i:s');
             if($request->password != NULL)
             {
@@ -548,9 +548,9 @@ class TrainerClientController extends Controller
         $ins['client_measurement_date']       = $request->client_measurement_date;
         $ins['client_measurement_client']     = $request->client;
         $ins['client_measurement_status']     = 1;
-        $ins['client_measurement_added_by']   = Auth::guard('trainer')->user()->trainer_id;
+        $ins['client_measurement_added_by']   = Auth::user()->id;
         $ins['client_measurement_added_on']   = date('Y-m-d H:i:s');
-        $ins['client_measurement_updated_by'] = Auth::guard('trainer')->user()->trainer_id;
+        $ins['client_measurement_updated_by'] = Auth::user()->id;
         $ins['client_measurement_updated_on'] = date('Y-m-d H:i:s');
 
         $insert_id = ClientMeasurement::insertGetId($ins);
