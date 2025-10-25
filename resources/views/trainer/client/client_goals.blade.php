@@ -137,6 +137,24 @@
                     </div>
                     <div class="col-lg-6 col-md-6 col-12">
                         <div class="form-group">
+                        <label for="Steps">Steps</label>
+                        <input type="text" class="form-control" name="user_goal_steps" id="user_goal_steps" value="{{old('user_goal_steps')}}" autocomplete="off">
+                        @if($errors->has('user_goal_steps'))
+                        <p class="text-danger">{{ $errors->first('user_goal_steps') }}</p>
+                        @endif
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
+                        <label for="Steps">Steps Target</label>
+                        <input type="text" class="form-control" name="user_goal_steps_target" id="user_goal_steps_target" value="{{old('user_goal_steps_target')}}" autocomplete="off">
+                        @if($errors->has('user_goal_steps_target'))
+                        <p class="text-danger">{{ $errors->first('user_goal_steps_target') }}</p>
+                        @endif
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="form-group">
                         <label for="weight">Weight</label>
                         <select class="form-control" name="user_goal_weight" id="user_goal_weight">
                             <option>Select</option>
@@ -231,7 +249,7 @@
 var i = 2;
 function add_workout()
 {
-    
+
     $('#new_muscle').append('<div class="col-lg-4 col-md-4 col-12"><div class="form-group"><label for="muscle">Muscle</label><select class="form-control" name="user_goal_muscle['+i+']" id="user_goal_muscle_'+i+'"><option>Select</option>@foreach($muscle_groups as $muscle_group)<option id="{{$muscle_group->muscle_group_id}}">{{$muscle_group->muscle_group_name}}</option>@endforeach</select></div></div><div class="col-lg-4 col-md-4 col-12"><div class="form-group"><label for="target">Current</label><input type="text" class="form-control" name="user_goal_muscle_current['+i+']" id="user_goal_muscle_current_'+i+'" value="" autocomplete="off"></div></div><div class="col-lg-4 col-md-4 col-12"><div class="form-group"><label for="target">Target</label><input type="text" class="form-control" name="user_goal_muscle_target['+i+']" id="user_goal_fat_target_'+i+'" value="" autocomplete="off"></div></div>')
 
 }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('fname');
             $table->string('lname')->nullable();
             $table->string('uname')->nullable();
+            $table->string('title')->nullable();
             $table->integer('type')->default(1);
             $table->string('email')->unique();
             $table->string('phone')->nullable();
@@ -33,6 +34,7 @@ return new class extends Migration
             $table->string('tiktok')->nullable();
             $table->string('youtube')->nullable();
             $table->string('plan')->nullable();
+            $table->integer('level')->default(1);
             $table->string('password');
             $table->string('vpassword');
             $table->string('otp')->nullable();

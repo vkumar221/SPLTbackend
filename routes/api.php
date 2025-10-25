@@ -18,6 +18,12 @@ use App\Http\Controllers\API\TrainerRegisterController;
 use App\Http\Controllers\API\UserFollowController;
 use App\Http\Controllers\API\UserBlockedController;
 use App\Http\Controllers\API\UserAppointmentController;
+use App\Http\Controllers\API\UserCertificateController;
+use App\Http\Controllers\API\UserTrainerController;
+use App\Http\Controllers\API\UserGoalController;
+use App\Http\Controllers\API\UserPageController;
+use App\Http\Controllers\API\UserWorkoutController;
+use App\Http\Controllers\API\UserSettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,15 +84,16 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('appointment_cancel', [UserAppointmentController::class, 'appointment_cancel']);
 
     //Address
+    Route::get('address_list', [UserProfileController::class, 'address_list']);
     Route::post('add_address', [UserProfileController::class, 'add_address']);
     Route::post('edit_address', [UserProfileController::class, 'edit_address']);
-    Route::get('delete_address/{id}', [UserProfileController::class, 'delete_address']);
+    Route::post('delete_address', [UserProfileController::class, 'delete_address']);
 
     //Card
     Route::get('card_list', [UserProfileController::class, 'card_list']);
     Route::post('add_card', [UserProfileController::class, 'add_card']);
     Route::post('edit_card', [UserProfileController::class, 'edit_card']);
-    Route::get('delete_card/{id}', [UserProfileController::class, 'delete_card']);
+    Route::post('delete_card', [UserProfileController::class, 'delete_card']);
 
     //Auth
     Route::get('logout', [UserLoginController::class, 'logout']);
@@ -123,6 +130,43 @@ Route::group(['middleware' => ['auth:api']], function () {
     //Plans
     Route::get('plans', [UserPlanController::class, 'index']);
     Route::post('buy_plan', [UserPlanController::class, 'buy_plan']);
+
+    //Trainers
+    Route::get('trainer_list', [UserTrainerController::class, 'index']);
+    Route::post('search_trainer', [UserTrainerController::class, 'search_trainer']);
+    Route::post('about_trainer', [UserTrainerController::class, 'about_trainer']);
+
+    //Certificate
+    Route::get('certificates', [UserCertificateController::class, 'index']);
+    Route::post('trainer_certificate', [UserCertificateController::class, 'trainer_certificate']);
+    Route::post('add_certificate', [UserCertificateController::class, 'add_certificate']);
+
+    //Review
+    Route::post('add_review', [UserTrainerController::class, 'add_review']);
+    Route::post('review_like', [UserTrainerController::class, 'review_like']);
+    Route::post('remove_review_like', [UserTrainerController::class, 'remove_review_like']);
+
+    //Goal
+    Route::get('goals', [UserGoalController::class, 'index']);
+    Route::get('goal_types', [UserGoalController::class, 'goal_types']);
+    Route::post('add_goal', [UserGoalController::class, 'add_goal']);
+
+    //Pages
+    Route::get('terms', [UserPageController::class, 'terms']);
+    Route::get('about', [UserPageController::class, 'about']);
+    Route::get('contact', [UserPageController::class, 'contact']);
+
+    //Settings
+    Route::get('faq', [UserSettingController::class, 'faq']);
+    Route::post('search_faq', [UserSettingController::class, 'search_faq']);
+    Route::post('submit_question', [UserSettingController::class, 'submit_question']);
+    Route::get('measurement_parts', [UserSettingController::class, 'measurement_parts']);
+    Route::post('add_measurement', [UserSettingController::class, 'add_measurement']);
+
+    //Settings
+    Route::get('workout', [UserWorkoutController::class, 'index']);
+    Route::post('search_workout', [UserWorkoutController::class, 'search_workout']);
+    Route::post('workout_detail', [UserWorkoutController::class, 'workout_plan_detail']);
 
 });
 

@@ -14,7 +14,7 @@ class UserCategoryController extends BaseController
     public function index(Request $request)
     {
         $categories = Category::where('category_status',1)->get();
-        if(isset($categories))
+        if($categories->count() > 0)
         {
             foreach($categories as $key=> $category)
             {
@@ -27,7 +27,7 @@ class UserCategoryController extends BaseController
         }
         else
         {
-            return $this->sendError("No Categories found", []);
+            return $this->sendResponse([],'No Categories found');
         }
 
     }

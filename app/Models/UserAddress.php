@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserAddress extends Model
 {
-    protected $table = 'user_addresss';
+    protected $table = 'user_address';
 
     protected $primaryKey = 'user_address_id';
 
@@ -19,7 +19,7 @@ class UserAddress extends Model
         $address = new UserAddress;
 
         return $address->select('*')
-                        ->join('users','users.user_id','user_addresss.user_address_user')
+                        ->join('users','users.user_id','user_address.user_address_user')
                         ->where($where)
                         ->orderby('user_address_id','desc')
                         ->get();

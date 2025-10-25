@@ -13,6 +13,17 @@ class UserFollowController extends BaseController
 {
     public function index(Request $request)
     {
+        $rules = ['user_id' => 'required',];
+
+        $messages = ['user_id.required'=>'Please provide user id',];
+
+        $validator = Validator::make($request->all(),$rules,$messages);
+
+        if($validator->fails())
+        {
+            return $this->sendError($validator->errors(), ['error'=>'Validation Errors']);
+        }
+
         $follow = Following::where(['following_follower'=>$request->user_id,'following_added_by'=>Auth::user()->id]);
         if($request->user_id == Auth::user()->id)
         {
@@ -58,6 +69,17 @@ class UserFollowController extends BaseController
 
     public function unfollow(Request $request)
     {
+         $rules = ['user_id' => 'required',];
+
+        $messages = ['user_id.required'=>'Please provide user id',];
+
+        $validator = Validator::make($request->all(),$rules,$messages);
+
+        if($validator->fails())
+        {
+            return $this->sendError($validator->errors(), ['error'=>'Validation Errors']);
+        }
+
         $follow = Following::where(['following_follower'=>$request->user_id,'following_added_by'=>Auth::user()->id]);
         if($request->user_id == Auth::user()->id)
         {

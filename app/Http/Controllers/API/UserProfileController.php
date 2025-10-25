@@ -107,6 +107,7 @@ class UserProfileController extends BaseController
     {
         $result['fname'] = Auth::user()->fname;
         $result['lname'] = Auth::user()->lname;
+        $result['title'] = Auth::user()->title;
         $result['email '] = Auth::user()->email;
         $result['uname'] = Auth::user()->uname;
         $result['gender'] = Auth::user()->gender;
@@ -175,6 +176,7 @@ class UserProfileController extends BaseController
             $upd['lname']      = $request->lname;
             $upd['email']      = $request->email;
             $upd['uname']      = $request->uname;
+            $upd['title']      = $request->title;
             $upd['gender']     = $request->gender;
             $upd['age']        = $request->age;
             $upd['dob']        = $request->dob;
@@ -363,6 +365,31 @@ class UserProfileController extends BaseController
 
     }
 
+    public function address_list(Request $request)
+    {
+        $addresses = UserAddress::where('user_address_user',Auth::user()->id)->get();
+        if($addresses->count() > 0)
+        {
+            foreach($addresses as $key=> $address)
+            {
+                $add[$key]['address_id'] = $address->user_address_id;
+                $add[$key]['address_name'] = $address->user_address_name;
+                $add[$key]['address_line1'] = $address->user_address_line1;
+                $add[$key]['address_line2'] = $address->user_address_line2;
+                $add[$key]['user_address_city'] = $address->user_address_city;
+                $add[$key]['user_address_state'] = $address->user_address_state;
+                $add[$key]['user_address_zipcode'] = $address->user_address_zipcode;
+            }
+            $result['addresses'] = $add;
+            return $this->sendResponse($result,'Address List.');
+        }
+        else
+        {
+             return $this->sendResponse([],'No Address List.');
+        }
+
+    }
+
     public function add_address(Request $request)
     {
         $rules = [
@@ -477,7 +504,6 @@ class UserProfileController extends BaseController
             $address = UserAddress::where(['user_address_user'=>Auth::user()->id,'user_address_id'=>$request->address_id])->count();
             if($address > 0)
             {
-
                 $delete = UserAddress::where('user_address_id',$request->address_id)->delete();
 
                 return $this->sendResponse([], 'Address Deleted Successfully.');
@@ -609,7 +635,21 @@ class UserProfileController extends BaseController
 
     public function delete_card(Request $request)
     {
-        $cards = UserCard::where(['user_card_user'=>Auth::user()->id,'user_card_id'=>$request->segment(3)])->count();
+        $rules = [ 'card_id' => 'required',
+                ];
+
+        $messages = [
+                    'card_id.required' => 'Please Provide Address id',
+                    ];
+
+        $validator = Validator::make($request->all(),$rules,$messages);
+
+        if($validator->fails())
+        {
+            return $this->sendError($validator->errors(), ['error'=>'Validation Errors']);
+        }
+
+        $cards = UserCard::where(['user_card_user'=>Auth::user()->id,'user_card_id'=>$request->card_id])->count();
 
         if($cards > 0)
         {

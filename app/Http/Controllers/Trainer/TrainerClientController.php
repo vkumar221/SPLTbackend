@@ -369,7 +369,8 @@ class TrainerClientController extends Controller
 
             $ins['user_goal_name']             = $request->user_goal_name;
             $ins['user_goal_type']             = $request->user_goal_type;
-            $ins['user_goal_duration']         = $request->user_goal_duration;
+            $ins['user_goal_steps']            = $request->user_goal_steps;
+            $ins['user_goal_steps_target']     = $request->user_goal_steps_target;
             $ins['user_goal_weight']           = $request->user_goal_weight;
             $ins['user_goal_weight_target']    = $request->user_goal_weight_target;
             $ins['user_goal_user']             = $request->request->segement(3);

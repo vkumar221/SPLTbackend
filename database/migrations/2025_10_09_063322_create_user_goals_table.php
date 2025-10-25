@@ -17,7 +17,9 @@ return new class extends Migration
             $table->integer('user_goal_user');
             $table->integer('user_goal_type');
             $table->integer('user_goal_duration');
-            $table->string('user_goal_weight');
+            $table->string('user_goal_steps')->nullable();
+            $table->string('user_goal_steps_target')->nullable();
+            $table->string('user_goal_weight')->nullable();
             $table->string('user_goal_weight_target')->nullable();
             $table->string('user_goal_weight_duration')->nullable();
             $table->string('user_goal_fat')->nullable();
